@@ -1,0 +1,10 @@
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\bin\Debug\test21.09.exe.config
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\bin\Debug\test21.09.exe
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\bin\Debug\test21.09.pdb
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\obj\Debug\test21.09.csproj.AssemblyReference.cache
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\obj\Debug\test21._09.Form1.resources
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\obj\Debug\test21._09.Properties.Resources.resources
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\obj\Debug\test21.09.csproj.GenerateResource.cache
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\obj\Debug\test21.09.csproj.CoreCompileInputs.cache
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\obj\Debug\test21.09.exe
+C:\Users\ordoo\Desktop\task-tracker\test21.09\test21.09\obj\Debug\test21.09.pdb
