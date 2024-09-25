@@ -25,7 +25,7 @@ namespace task_trackerVS
 
         private bool isDragging = false;
         private Point dragCursorPoint;
-        private Point dragCardPoint; 
+        private Point dragCardPoint;
         private void UserControlCard_MouseMove(object sender, MouseEventArgs e)
         {
 
@@ -39,9 +39,9 @@ namespace task_trackerVS
 
         private void UserControlCard_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left) 
+            if (e.Button == MouseButtons.Left)
             {
-                isDragging = true; 
+                isDragging = true;
                 dragCursorPoint = Cursor.Position;
                 dragCardPoint = this.Location;
             }
@@ -57,6 +57,11 @@ namespace task_trackerVS
 
         private void UserControlCard_Click(object sender, EventArgs e)
         {
+        }
+
+        private void labelHeading_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

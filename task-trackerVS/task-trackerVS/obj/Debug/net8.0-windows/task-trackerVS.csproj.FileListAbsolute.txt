@@ -102,3 +102,4 @@ C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\bin\Debug\net8
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task-trackerVS.csproj.AssemblyReference.cache
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task-trackerVS.csproj.CopyComplete
+C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task_trackerVS.Properties.Resources.resources

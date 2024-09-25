@@ -37,16 +37,17 @@
             // 
             labelHeading.AutoSize = true;
             labelHeading.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            labelHeading.Location = new Point(24, 51);
+            labelHeading.Location = new Point(10, 29);
             labelHeading.Name = "labelHeading";
             labelHeading.Size = new Size(75, 21);
             labelHeading.TabIndex = 0;
             labelHeading.Text = "Heading";
+            labelHeading.Click += labelHeading_Click;
             // 
             // labelCount
             // 
             labelCount.AutoSize = true;
-            labelCount.Location = new Point(16, 17);
+            labelCount.Location = new Point(9, 8);
             labelCount.Name = "labelCount";
             labelCount.Size = new Size(38, 15);
             labelCount.TabIndex = 1;
@@ -54,11 +55,11 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(24, 91);
+            textBox1.Location = new Point(9, 64);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
             textBox1.ScrollBars = ScrollBars.Vertical;
-            textBox1.Size = new Size(366, 366);
+            textBox1.Size = new Size(378, 114);
             textBox1.TabIndex = 2;
             // 
             // UserControlCard
@@ -71,7 +72,7 @@
             Controls.Add(labelCount);
             Controls.Add(labelHeading);
             Name = "UserControlCard";
-            Size = new Size(408, 489);
+            Size = new Size(400, 200);
             Load += UserControlCard_Click;
             Click += UserControlCard_Click;
             MouseDown += UserControlCard_MouseDown;
