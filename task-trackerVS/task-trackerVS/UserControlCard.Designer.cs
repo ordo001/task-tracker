@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             labelHeading = new Label();
-            labelCount = new Label();
             textBox1 = new TextBox();
             SuspendLayout();
             // 
@@ -37,29 +36,20 @@
             // 
             labelHeading.AutoSize = true;
             labelHeading.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            labelHeading.Location = new Point(10, 29);
+            labelHeading.Location = new Point(8, 11);
             labelHeading.Name = "labelHeading";
             labelHeading.Size = new Size(75, 21);
             labelHeading.TabIndex = 0;
             labelHeading.Text = "Heading";
             labelHeading.Click += labelHeading_Click;
             // 
-            // labelCount
-            // 
-            labelCount.AutoSize = true;
-            labelCount.Location = new Point(9, 8);
-            labelCount.Name = "labelCount";
-            labelCount.Size = new Size(38, 15);
-            labelCount.TabIndex = 1;
-            labelCount.Text = "label1";
-            // 
             // textBox1
             // 
-            textBox1.Location = new Point(9, 64);
+            textBox1.BackColor = Color.FromArgb(45, 52, 63);
+            textBox1.Location = new Point(8, 46);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
-            textBox1.ScrollBars = ScrollBars.Vertical;
-            textBox1.Size = new Size(378, 114);
+            textBox1.Size = new Size(378, 133);
             textBox1.TabIndex = 2;
             // 
             // UserControlCard
@@ -67,9 +57,8 @@
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.FromArgb(45, 52, 63);
             Controls.Add(textBox1);
-            Controls.Add(labelCount);
             Controls.Add(labelHeading);
             Name = "UserControlCard";
             Size = new Size(400, 200);
@@ -85,7 +74,6 @@
         #endregion
 
         private Label labelHeading;
-        private Label labelCount;
         private TextBox textBox1;
     }
 }

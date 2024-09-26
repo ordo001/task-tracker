@@ -32,7 +32,7 @@ namespace task_trackerVS
         {
             GroupBox section = new GroupBox()
             {
-                Location = new Point(20 + (sectionCount * 440), 120),
+                Location = new Point(10 + (sectionCount * 440), 140),
                 Name = "section" + sectionCount + 1,
                 Size = new Size(420, 100),
                 TabIndex = sectionCount,

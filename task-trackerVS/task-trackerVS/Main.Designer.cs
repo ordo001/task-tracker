@@ -41,8 +41,10 @@
             label1 = new Label();
             label2 = new Label();
             pictureBox1 = new PictureBox();
+            panel1 = new Panel();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // contextMenuStrip1
@@ -63,7 +65,7 @@
             labelMain.AutoSize = true;
             labelMain.Font = new Font("Bahnschrift SemiBold", 21F);
             labelMain.ForeColor = SystemColors.ButtonFace;
-            labelMain.Location = new Point(155, 38);
+            labelMain.Location = new Point(145, 42);
             labelMain.Name = "labelMain";
             labelMain.Size = new Size(308, 34);
             labelMain.TabIndex = 1;
@@ -74,7 +76,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline);
             label1.ForeColor = SystemColors.ScrollBar;
-            label1.Location = new Point(504, 38);
+            label1.Location = new Point(490, 46);
             label1.Name = "label1";
             label1.Size = new Size(132, 29);
             label1.TabIndex = 2;
@@ -85,7 +87,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline);
             label2.ForeColor = SystemColors.ScrollBar;
-            label2.Location = new Point(691, 38);
+            label2.Location = new Point(646, 46);
             label2.Name = "label2";
             label2.Size = new Size(141, 29);
             label2.TabIndex = 3;
@@ -94,12 +96,24 @@
             // pictureBox1
             // 
             pictureBox1.Image = Properties.Resources.icon;
-            pictureBox1.Location = new Point(24, 12);
+            pictureBox1.Location = new Point(14, 3);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(108, 90);
+            pictureBox1.Size = new Size(108, 108);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.FromArgb(45, 52, 63);
+            panel1.Controls.Add(pictureBox1);
+            panel1.Controls.Add(labelMain);
+            panel1.Controls.Add(label2);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(2, 12);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(1601, 119);
+            panel1.TabIndex = 6;
             // 
             // Main
             // 
@@ -109,10 +123,7 @@
             BackColor = Color.FromArgb(41, 47, 57);
             ClientSize = new Size(1600, 836);
             ContextMenuStrip = contextMenuStrip1;
-            Controls.Add(pictureBox1);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(labelMain);
+            Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Name = "Main";
@@ -121,8 +132,9 @@
             Load += Main_Load;
             contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -132,5 +144,6 @@
         private Label label1;
         private Label label2;
         private PictureBox pictureBox1;
+        private Panel panel1;
     }
 }
