@@ -2,9 +2,9 @@ using System.Windows.Forms;
 
 namespace task_trackerVS
 {
-    public partial class Main : Form
+    public partial class MainForm : Form
     {
-        public Main()
+        public MainForm()
         {
             InitializeComponent();
         }
@@ -47,7 +47,7 @@ namespace task_trackerVS
                 Text = "Новая карточка",
                 Font = new Font("Bahnschrift SemiBold", 14F),
                 AutoSize = true,
-                Location = new Point(50,20)
+                Location = new Point(50, 20)
             };
 
             TreeView treeView = new TreeView()
@@ -68,7 +68,7 @@ namespace task_trackerVS
             TreeNode childNode2 = rootNode.Nodes.Add("Добавить");
             TreeNode childNode3 = rootNode.Nodes.Add("Изменить");
 
-            treeView.AfterExpand += (s,args) =>
+            treeView.AfterExpand += (s, args) =>
             {
                 treeView.Size = new Size(120, 77);
             };
@@ -77,19 +77,19 @@ namespace task_trackerVS
             {
                 treeView.Size = new Size(120, 25);
             };
-
+            int cardCount = 0;
             treeView.NodeMouseClick += (s, e) =>
             {
                 if (e.Node == childNode1)
                 {
                     this.Controls.Remove(section);
-                    for(int i = 0; i < sections.Count; i++)
+                    for (int i = 0; i < sections.Count; i++)
                     {
 
-                        if(sections[i] == section)
+                        if (sections[i] == section)
                         {
                             sections.RemoveAt(i);
-                            for(int j = i; j < sections.Count; j++)
+                            for (int j = i; j < sections.Count; j++)
                             {
                                 sections[j].Location = new Point(sections[j].Location.X - 440, sections[j].Location.Y);
                             }
@@ -98,19 +98,19 @@ namespace task_trackerVS
                         }
                     }
                     sectionCount--;
-                    
+
                 }
-                if(e.Node == childNode2)
+                if (e.Node == childNode2)
                 {
                     UserControlCard card = new UserControlCard()
                     {
                         //BorderStyle = BorderStyle.FixedSingle
                     };
-
-                    card.Location = new Point(10,55);
+                    card.Location = new Point(10, 55 + (cardCount * 220));
+                    cardCount++;
                     section.Controls.Add(card);
                 }
-                if(e.Node == childNode3)
+                if (e.Node == childNode3)
                 {
                     TextBox textBox = new TextBox
                     {
@@ -118,7 +118,7 @@ namespace task_trackerVS
                         Location = head.Location,
                         Visible = false
                     };
-                    
+
                     textBox.Text = head.Text;
                     textBox.Size = head.Size;
                     textBox.Visible = true;
@@ -149,6 +149,11 @@ namespace task_trackerVS
         {
         }
 
-
+        private void Main_Resize(object sender, EventArgs e)
+        {
+            //.Width = ClientSize.Width - 4;
+            panel1.Dock = DockStyle.Top;
+            
+        }
     }
 }

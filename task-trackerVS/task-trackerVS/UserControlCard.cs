@@ -23,36 +23,36 @@ namespace task_trackerVS
         {
         }
 
-        private bool isDragging = false;
-        private Point dragCursorPoint;
-        private Point dragCardPoint;
+        //private bool isDragging = false;
+        //private Point dragCursorPoint;
+        //private Point dragCardPoint;
         private void UserControlCard_MouseMove(object sender, MouseEventArgs e)
         {
 
-            if (isDragging)
-            {
-                Point delta = new Point(Cursor.Position.X - dragCursorPoint.X, Cursor.Position.Y - dragCursorPoint.Y);
-                this.Location = new Point(dragCardPoint.X + delta.X, dragCardPoint.Y + delta.Y);
-            }
+            //if (isDragging)
+            //{
+            //    Point delta = new Point(Cursor.Position.X - dragCursorPoint.X, Cursor.Position.Y - dragCursorPoint.Y);
+            //    this.Location = new Point(dragCardPoint.X + delta.X, dragCardPoint.Y + delta.Y);
+            //}
 
         }
 
         private void UserControlCard_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                isDragging = true;
-                dragCursorPoint = Cursor.Position;
-                dragCardPoint = this.Location;
-            }
+            //if (e.Button == MouseButtons.Left)
+            //{
+            //    isDragging = true;
+            //    dragCursorPoint = Cursor.Position;
+            //    dragCardPoint = this.Location;
+            //}
         }
 
         private void UserControlCard_MouseUp(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                isDragging = false;
-            }
+            //if (e.Button == MouseButtons.Left)
+            //{
+            //    isDragging = false;
+            //}
         }
 
         private void UserControlCard_Click(object sender, EventArgs e)

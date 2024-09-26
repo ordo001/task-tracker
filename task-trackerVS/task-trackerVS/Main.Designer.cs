@@ -1,7 +1,7 @@
 ﻿namespace task_trackerVS
 {
     using System.ComponentModel.Design;
-    partial class Main
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -34,7 +34,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             contextMenuStrip1 = new ContextMenuStrip(components);
             cardsToolStripMenuItem = new ToolStripMenuItem();
             labelMain = new Label();
@@ -112,24 +112,25 @@
             panel1.Controls.Add(label1);
             panel1.Location = new Point(2, 12);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1601, 119);
+            panel1.Size = new Size(1598, 119);
             panel1.TabIndex = 6;
             // 
-            // Main
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            AutoSize = true;
+            AutoScroll = true;
             BackColor = Color.FromArgb(41, 47, 57);
             ClientSize = new Size(1600, 836);
             ContextMenuStrip = contextMenuStrip1;
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
-            Name = "Main";
+            Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Главная доска";
             Load += Main_Load;
+            Resize += Main_Resize;
             contextMenuStrip1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);

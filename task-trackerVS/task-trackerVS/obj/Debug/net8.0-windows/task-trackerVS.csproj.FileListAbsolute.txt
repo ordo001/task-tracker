@@ -16,7 +16,6 @@ C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\ref\task-trackerVS.dll
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task_trackerVS.UserControlCard.resources
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task_trackerVS.LogIn.resources
-C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task_trackerVS.Main.resources
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task_trackerVS.SignUp.resources
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\bin\Debug\net8.0-windows\Humanizer.dll
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\bin\Debug\net8.0-windows\Microsoft.Bcl.AsyncInterfaces.dll
@@ -103,3 +102,4 @@ C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\bin\Debug\net8
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task-trackerVS.csproj.AssemblyReference.cache
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task-trackerVS.csproj.CopyComplete
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task_trackerVS.Properties.Resources.resources
+C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Debug\net8.0-windows\task_trackerVS.MainForm.resources
