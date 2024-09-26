@@ -28,6 +28,7 @@ namespace task_trackerVS
 
 
         int sectionCount = 0;
+        List<GroupBox> sections = new List<GroupBox>();
         private void cardsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GroupBox section = new GroupBox()
@@ -38,8 +39,8 @@ namespace task_trackerVS
                 TabIndex = sectionCount,
                 TabStop = false,
                 AutoSize = true,
-            ForeColor = SystemColors.ButtonFace
-        };
+                ForeColor = SystemColors.ButtonFace
+            };
 
             Label head = new Label()
             {
@@ -82,13 +83,28 @@ namespace task_trackerVS
                 if (e.Node == childNode1)
                 {
                     this.Controls.Remove(section);
-                    count--;
+                    for(int i = 0; i < sections.Count; i++)
+                    {
+
+                        if(sections[i] == section)
+                        {
+                            sections.RemoveAt(i);
+                            for(int j = i; j < sections.Count; j++)
+                            {
+                                sections[j].Location = new Point(sections[j].Location.X - 440, sections[j].Location.Y);
+                            }
+                            break;
+
+                        }
+                    }
+                    sectionCount--;
+                    
                 }
                 if(e.Node == childNode2)
                 {
                     UserControlCard card = new UserControlCard()
                     {
-                        BorderStyle = BorderStyle.FixedSingle
+                        //BorderStyle = BorderStyle.FixedSingle
                     };
 
                     card.Location = new Point(10,55);
@@ -123,6 +139,7 @@ namespace task_trackerVS
                 }
             };
             sectionCount++;
+            sections.Add(section);
             section.Controls.Add(treeView);
             section.Controls.Add(head);
             Controls.Add(section);
@@ -130,8 +147,8 @@ namespace task_trackerVS
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
+
 
     }
 }

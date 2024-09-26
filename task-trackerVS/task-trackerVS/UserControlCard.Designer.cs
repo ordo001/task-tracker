@@ -45,7 +45,7 @@
             // 
             // textBox1
             // 
-            textBox1.BackColor = Color.FromArgb(45, 52, 63);
+            textBox1.BackColor = Color.FromArgb(63, 68, 78);
             textBox1.Location = new Point(8, 46);
             textBox1.Multiline = true;
             textBox1.Name = "textBox1";
@@ -57,7 +57,7 @@
             AllowDrop = true;
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(45, 52, 63);
+            BackColor = Color.FromArgb(63, 68, 78);
             Controls.Add(textBox1);
             Controls.Add(labelHeading);
             Name = "UserControlCard";
