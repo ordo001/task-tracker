@@ -1,4 +1,7 @@
+using System.Security.AccessControl;
 using System.Windows.Forms;
+using task_trackerVS.Models;
+using static System.Collections.Specialized.BitVector32;
 
 namespace task_trackerVS
 {
@@ -14,33 +17,172 @@ namespace task_trackerVS
 
         }
 
-        private int count = 0;
         private void button1_Click_1(object sender, EventArgs e)
         {
 
         }
 
-        private void Main_Load(object sender, EventArgs e)
-        {
 
+        private void RemoveSection(GroupBox sectionToRemove) 
+        {
+            TaskTrackerDbContext db = new TaskTrackerDbContext();
+
+            Controls.Remove(sectionToRemove);
+
+            var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == sectionToRemove.Name);
+            if (sectionData != null)
+            {
+                db.Sections.Remove(sectionData);
+                db.SaveChanges();
+            }
+
+            var remainingSections = Controls.OfType<GroupBox>().Where(s => s.Name.StartsWith("section")).ToList();
+
+            for (int i = 0; i < remainingSections.Count; i++)
+            {
+                var section = remainingSections[i];
+                section.Location = new Point(10 + (i * 440), section.Location.Y);
+
+                var sectionInDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                if (sectionInDb != null)
+                {
+                    sectionInDb.SectionLocationX = section.Location.X;
+                    sectionInDb.SectionLocationY = section.Location.Y;
+                }
+            }
+
+            db.SaveChanges();
         }
 
 
+        private void Main_Load(object sender, EventArgs e)
+        {
+            TaskTrackerDbContext db = new TaskTrackerDbContext();
+            var sectionsList = db.Sections.ToList();
+            for (int i = 0; i < sectionsList.Count(); i++)
+            {
+                var sectionData = sectionsList[i];
+                GroupBox section = new GroupBox()
+                {
 
-        int sectionCount = 0;
-        List<GroupBox> sections = new List<GroupBox>();
+                    Location = new Point(sectionData.SectionLocationX, sectionData.SectionLocationY),
+                    Name = sectionData.NameSection,
+                    Size = new Size(420, 100),
+                    TabIndex = i,
+                    TabStop = false,
+                    AutoSize = true,
+                    ForeColor = SystemColors.ButtonFace
+                };
+
+                Label head = new Label()
+                {
+                    Text = sectionData.HeadingSection,
+                    Font = new Font("Bahnschrift SemiBold", 14F),
+                    AutoSize = true,
+                    Location = new Point(50, 20)
+                };
+
+                TreeView treeView = new TreeView()
+                {
+                    BackColor = Color.FromArgb(41, 47, 57),
+                    ForeColor = SystemColors.ButtonFace,
+                    ImeMode = ImeMode.Disable,
+                    Location = new Point(290, 20),
+                    Name = "treeView1",
+                    ShowPlusMinus = false,
+                    Size = new Size(120, 25),
+                    TabIndex = 4
+                };
+                TreeNode rootNode = treeView.Nodes.Add("...");
+
+                TreeNode childNode1 = rootNode.Nodes.Add("Удалить");
+                TreeNode childNode2 = rootNode.Nodes.Add("Добавить");
+                TreeNode childNode3 = rootNode.Nodes.Add("Изменить");
+                treeView.AfterExpand += (s, args) =>
+                {
+                    treeView.Size = new Size(120, 77);
+                };
+
+                treeView.AfterCollapse += (s, args) =>
+                {
+                    treeView.Size = new Size(120, 25);
+                };
+                int cardCount = 0;
+                treeView.NodeMouseClick += (s, e) =>
+                {
+                    if (e.Node == childNode1)
+                    {
+                        RemoveSection(section);
+                    }
+                    if (e.Node == childNode2)
+                    {
+                        UserControlCard card = new UserControlCard()
+                        {
+                            //BorderStyle = BorderStyle.FixedSingle
+                        };
+                        card.Location = new Point(10, 55 + (cardCount * 220));
+                        cardCount++;
+                        section.Controls.Add(card);
+                    }
+                    if (e.Node == childNode3)
+                    {
+                        TextBox textBox = new TextBox
+                        {
+                            Size = head.Size,
+                            Location = head.Location,
+                            Visible = false
+                        };
+
+                        textBox.Text = head.Text;
+                        textBox.Size = head.Size;
+                        textBox.Visible = true;
+                        head.Visible = false;
+                        textBox.Focus();
+
+                        textBox.KeyDown += (s, e) =>
+                        {
+                            if (e.KeyCode == Keys.Enter)
+                            {
+                                head.Text = textBox.Text;
+                                head.Visible = true;
+                                textBox.Visible = false;
+                            }
+                        };
+                        section.Controls.Add(textBox);
+                    }
+                };
+                section.Controls.Add(treeView);
+                section.Controls.Add(head);
+                Controls.Add(section);
+            }
+        }
+
+     
         private void cardsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            GroupBox section = new GroupBox()
+            TaskTrackerDbContext db = new TaskTrackerDbContext();
+            var sectionsList = db.Sections.ToList();
+            int aboba;
+            task_trackerVS.Models.Section sectionNum;
+            if (sectionsList.Count > 0)
             {
-                Location = new Point(10 + (sectionCount * 440), 140),
-                Name = "section" + sectionCount + 1,
-                Size = new Size(420, 100),
-                TabIndex = sectionCount,
-                TabStop = false,
-                AutoSize = true,
-                ForeColor = SystemColors.ButtonFace
-            };
+                sectionNum = sectionsList[sectionsList.Count - 1];
+                aboba = sectionNum.IdSection;
+            }
+            else
+            {
+                aboba = 0;
+            }
+
+                GroupBox section = new GroupBox()
+                {
+                    Location = new Point(10 + ((sectionsList.Count) * 440), 140),
+                    Name = "section",
+                    Size = new Size(420, 100),
+                    TabStop = false,
+                    AutoSize = true,
+                    ForeColor = SystemColors.ButtonFace
+                };
 
             Label head = new Label()
             {
@@ -62,8 +204,20 @@ namespace task_trackerVS
                 TabIndex = 4
             };
 
-            TreeNode rootNode = treeView.Nodes.Add("...");
+            using (TaskTrackerDbContext db1 = new TaskTrackerDbContext())
+            {
+                Models.Section newSection = new Models.Section
+                {
+                    NameSection = section.Name + (aboba + 1).ToString(),
+                    HeadingSection = head.Text,
+                    SectionLocationX = section.Location.X,
+                    SectionLocationY = section.Location.Y,
+                };
+                db1.Add(newSection);
+                db1.SaveChanges();
+            }
 
+            TreeNode rootNode = treeView.Nodes.Add("...");
             TreeNode childNode1 = rootNode.Nodes.Add("Удалить");
             TreeNode childNode2 = rootNode.Nodes.Add("Добавить");
             TreeNode childNode3 = rootNode.Nodes.Add("Изменить");
@@ -78,34 +232,16 @@ namespace task_trackerVS
                 treeView.Size = new Size(120, 25);
             };
             int cardCount = 0;
+
             treeView.NodeMouseClick += (s, e) =>
             {
                 if (e.Node == childNode1)
                 {
-                    this.Controls.Remove(section);
-                    for (int i = 0; i < sections.Count; i++)
-                    {
-
-                        if (sections[i] == section)
-                        {
-                            sections.RemoveAt(i);
-                            for (int j = i; j < sections.Count; j++)
-                            {
-                                sections[j].Location = new Point(sections[j].Location.X - 440, sections[j].Location.Y);
-                            }
-                            break;
-
-                        }
-                    }
-                    sectionCount--;
-
+                    RemoveSection(section);
                 }
                 if (e.Node == childNode2)
                 {
-                    UserControlCard card = new UserControlCard()
-                    {
-                        //BorderStyle = BorderStyle.FixedSingle
-                    };
+                    UserControlCard card = new UserControlCard();
                     card.Location = new Point(10, 55 + (cardCount * 220));
                     cardCount++;
                     section.Controls.Add(card);
@@ -138,12 +274,11 @@ namespace task_trackerVS
 
                 }
             };
-            sectionCount++;
-            sections.Add(section);
             section.Controls.Add(treeView);
             section.Controls.Add(head);
             Controls.Add(section);
         }
+
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -151,7 +286,6 @@ namespace task_trackerVS
 
         private void Main_Resize(object sender, EventArgs e)
         {
-            //.Width = ClientSize.Width - 4;
             panel1.Dock = DockStyle.Top;
             
         }

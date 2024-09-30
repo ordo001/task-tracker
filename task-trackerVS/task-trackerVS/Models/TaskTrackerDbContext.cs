@@ -18,6 +18,8 @@ public partial class TaskTrackerDbContext : DbContext
 
     public virtual DbSet<Card> Cards { get; set; }
 
+    public virtual DbSet<Section> Sections { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -36,6 +38,8 @@ public partial class TaskTrackerDbContext : DbContext
 
             entity.ToTable("cards");
 
+            entity.HasIndex(e => e.IdSection, "id_section");
+
             entity.HasIndex(e => e.IdUser, "id_user");
 
             entity.Property(e => e.IdCard).HasColumnName("id_card");
@@ -43,12 +47,30 @@ public partial class TaskTrackerDbContext : DbContext
             entity.Property(e => e.Heading)
                 .HasMaxLength(30)
                 .HasColumnName("heading");
+            entity.Property(e => e.IdSection).HasColumnName("id_section");
             entity.Property(e => e.IdUser).HasColumnName("id_user");
 
-            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Cards)
-                .HasForeignKey(d => d.IdUser)
+            entity.HasOne(d => d.IdSectionNavigation).WithMany(p => p.Cards)
+                .HasForeignKey(d => d.IdSection)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("cards_ibfk_1");
+        });
+
+        modelBuilder.Entity<Section>(entity =>
+        {
+            entity.HasKey(e => e.IdSection).HasName("PRIMARY");
+
+            entity.ToTable("sections");
+
+            entity.Property(e => e.IdSection).HasColumnName("id_section");
+            entity.Property(e => e.HeadingSection)
+                .HasMaxLength(30)
+                .HasColumnName("heading_section");
+            entity.Property(e => e.NameSection)
+                .HasMaxLength(30)
+                .HasColumnName("name_section");
+            entity.Property(e => e.SectionLocationX).HasColumnName("sectionLocation_X");
+            entity.Property(e => e.SectionLocationY).HasColumnName("sectionLocation_Y");
         });
 
         modelBuilder.Entity<User>(entity =>

@@ -13,5 +13,7 @@ public partial class Card
 
     public int IdUser { get; set; }
 
-    public virtual User IdUserNavigation { get; set; } = null!;
+    public int IdSection { get; set; }
+
+    public virtual Section IdSectionNavigation { get; set; } = null!;
 }
