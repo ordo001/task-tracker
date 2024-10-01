@@ -72,8 +72,7 @@
         }
 
         #endregion
-
-        private Label labelHeading;
-        private TextBox textBox1;
+        public Label labelHeading;
+        public TextBox textBox1;
     }
 }

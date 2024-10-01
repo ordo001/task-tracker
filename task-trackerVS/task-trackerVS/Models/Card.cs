@@ -9,11 +9,13 @@ public partial class Card
 
     public string Heading { get; set; } = null!;
 
-    public int Content { get; set; }
+    public string Content { get; set; } = null!;
 
     public int IdUser { get; set; }
 
     public int IdSection { get; set; }
+
+    public int CardLocationY { get; set; }
 
     public virtual Section IdSectionNavigation { get; set; } = null!;
 }

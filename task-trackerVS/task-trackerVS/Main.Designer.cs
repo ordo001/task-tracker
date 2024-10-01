@@ -129,6 +129,7 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Главная доска";
+            FormClosing += MainForm_FormClosing;
             Load += Main_Load;
             Resize += Main_Resize;
             contextMenuStrip1.ResumeLayout(false);

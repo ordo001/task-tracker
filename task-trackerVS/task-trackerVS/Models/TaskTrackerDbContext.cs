@@ -43,7 +43,10 @@ public partial class TaskTrackerDbContext : DbContext
             entity.HasIndex(e => e.IdUser, "id_user");
 
             entity.Property(e => e.IdCard).HasColumnName("id_card");
-            entity.Property(e => e.Content).HasColumnName("content");
+            entity.Property(e => e.CardLocationY).HasColumnName("cardLocation_Y");
+            entity.Property(e => e.Content)
+                .HasMaxLength(70)
+                .HasColumnName("content");
             entity.Property(e => e.Heading)
                 .HasMaxLength(30)
                 .HasColumnName("heading");

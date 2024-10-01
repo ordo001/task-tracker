@@ -23,7 +23,7 @@ namespace task_trackerVS
         }
 
 
-        private void RemoveSection(GroupBox sectionToRemove) 
+        private void RemoveSection(GroupBox sectionToRemove)
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
 
@@ -87,25 +87,25 @@ namespace task_trackerVS
                     BackColor = Color.FromArgb(41, 47, 57),
                     ForeColor = SystemColors.ButtonFace,
                     ImeMode = ImeMode.Disable,
-                    Location = new Point(290, 20),
+                    Location = new Point(200, 20),
                     Name = "treeView1",
                     ShowPlusMinus = false,
-                    Size = new Size(120, 25),
+                    Size = new Size(200, 25),
                     TabIndex = 4
                 };
                 TreeNode rootNode = treeView.Nodes.Add("...");
 
-                TreeNode childNode1 = rootNode.Nodes.Add("Удалить");
-                TreeNode childNode2 = rootNode.Nodes.Add("Добавить");
-                TreeNode childNode3 = rootNode.Nodes.Add("Изменить");
+                TreeNode childNode1 = rootNode.Nodes.Add("Удалить секцию");
+                TreeNode childNode2 = rootNode.Nodes.Add("Добавить карточку");
+                TreeNode childNode3 = rootNode.Nodes.Add("Изменить название секции");
                 treeView.AfterExpand += (s, args) =>
                 {
-                    treeView.Size = new Size(120, 77);
+                    treeView.Size = new Size(200, 93);
                 };
 
                 treeView.AfterCollapse += (s, args) =>
                 {
-                    treeView.Size = new Size(120, 25);
+                    treeView.Size = new Size(190, 25);
                 };
                 int cardCount = 0;
                 treeView.NodeMouseClick += (s, e) =>
@@ -146,6 +146,13 @@ namespace task_trackerVS
                                 head.Text = textBox.Text;
                                 head.Visible = true;
                                 textBox.Visible = false;
+                                using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+                                {
+                                    var renameSection = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                                    if (renameSection != null)
+                                        renameSection.HeadingSection = head.Text;
+                                    db.SaveChanges();
+                                }
                             }
                         };
                         section.Controls.Add(textBox);
@@ -157,7 +164,7 @@ namespace task_trackerVS
             }
         }
 
-     
+
         private void cardsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
@@ -174,15 +181,15 @@ namespace task_trackerVS
                 aboba = 0;
             }
 
-                GroupBox section = new GroupBox()
-                {
-                    Location = new Point(10 + ((sectionsList.Count) * 440), 140),
-                    Name = "section",
-                    Size = new Size(420, 100),
-                    TabStop = false,
-                    AutoSize = true,
-                    ForeColor = SystemColors.ButtonFace
-                };
+            GroupBox section = new GroupBox()
+            {
+                Location = new Point(10 + ((sectionsList.Count) * 440), 140),
+                Name = "section" + (aboba + 1).ToString(),
+                Size = new Size(420, 100),
+                TabStop = false,
+                AutoSize = true,
+                ForeColor = SystemColors.ButtonFace
+            };
 
             Label head = new Label()
             {
@@ -200,7 +207,7 @@ namespace task_trackerVS
                 Location = new Point(290, 20),
                 Name = "treeView1",
                 ShowPlusMinus = false,
-                Size = new Size(120, 25),
+                Size = new Size(200, 25),
                 TabIndex = 4
             };
 
@@ -208,7 +215,7 @@ namespace task_trackerVS
             {
                 Models.Section newSection = new Models.Section
                 {
-                    NameSection = section.Name + (aboba + 1).ToString(),
+                    NameSection = section.Name,
                     HeadingSection = head.Text,
                     SectionLocationX = section.Location.X,
                     SectionLocationY = section.Location.Y,
@@ -224,12 +231,12 @@ namespace task_trackerVS
 
             treeView.AfterExpand += (s, args) =>
             {
-                treeView.Size = new Size(120, 77);
+                treeView.Size = new Size(200, 93);
             };
 
             treeView.AfterCollapse += (s, args) =>
             {
-                treeView.Size = new Size(120, 25);
+                treeView.Size = new Size(190, 25);
             };
             int cardCount = 0;
 
@@ -245,6 +252,19 @@ namespace task_trackerVS
                     card.Location = new Point(10, 55 + (cardCount * 220));
                     cardCount++;
                     section.Controls.Add(card);
+                    using (TaskTrackerDbContext db1 = new TaskTrackerDbContext())
+                    {
+                        var sectionDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                        Models.Card newCard = new Models.Card
+                        {
+                            Heading = card.labelHeading.Text,
+                            Content = card.textBox1.Text,
+                            CardLocationY = card.Location.X,
+                            IdSection = sectionDb.IdSection
+                        };
+                        db1.Add(newCard);
+                        db1.SaveChanges();
+                    }
                 }
                 if (e.Node == childNode3)
                 {
@@ -268,8 +288,16 @@ namespace task_trackerVS
                             head.Text = textBox.Text;
                             head.Visible = true;
                             textBox.Visible = false;
+                            using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+                            {
+                                var renameSection = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                                if(renameSection != null)
+                                    renameSection.HeadingSection = head.Text;
+                                db.SaveChanges();
+                            }
                         }
                     };
+                    
                     section.Controls.Add(textBox);
 
                 }
@@ -287,7 +315,12 @@ namespace task_trackerVS
         private void Main_Resize(object sender, EventArgs e)
         {
             panel1.Dock = DockStyle.Top;
-            
+
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
         }
     }
 }
