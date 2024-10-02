@@ -63,5 +63,22 @@ namespace task_trackerVS
         {
 
         }
+
+        private void textBox1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+                {
+                    // var cardContext = db.Cards.FirstOrDefault(s => s.i);
+                    //cardContext.
+                }
+            }
+        }
+
+        private void textBox1_Leave(object sender, EventArgs e)
+        {
+           
+        }
     }
 }

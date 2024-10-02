@@ -11,9 +11,9 @@ public partial class Section
 
     public string HeadingSection { get; set; } = null!;
 
-    public int SectionLocationY { get; set; }
-
     public int SectionLocationX { get; set; }
+
+    public int SectionLocationY { get; set; }
 
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 }

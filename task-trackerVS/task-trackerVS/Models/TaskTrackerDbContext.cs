@@ -52,11 +52,18 @@ public partial class TaskTrackerDbContext : DbContext
                 .HasColumnName("heading");
             entity.Property(e => e.IdSection).HasColumnName("id_section");
             entity.Property(e => e.IdUser).HasColumnName("id_user");
+            entity.Property(e => e.NameCard)
+                .HasMaxLength(30)
+                .HasColumnName("name_card");
 
             entity.HasOne(d => d.IdSectionNavigation).WithMany(p => p.Cards)
                 .HasForeignKey(d => d.IdSection)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("cards_ibfk_1");
+
+            entity.HasOne(d => d.IdUserNavigation).WithMany(p => p.Cards)
+                .HasForeignKey(d => d.IdUser)
+                .HasConstraintName("cards_ibfk_2");
         });
 
         modelBuilder.Entity<Section>(entity =>
@@ -83,7 +90,6 @@ public partial class TaskTrackerDbContext : DbContext
             entity.ToTable("users");
 
             entity.Property(e => e.IdUser).HasColumnName("id_user");
-            entity.Property(e => e.Access).HasColumnName("access");
             entity.Property(e => e.Login)
                 .HasMaxLength(30)
                 .HasColumnName("login");

@@ -13,5 +13,5 @@ public partial class User
 
     public string Name { get; set; } = null!;
 
-    public int Access { get; set; }
+    public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 }
