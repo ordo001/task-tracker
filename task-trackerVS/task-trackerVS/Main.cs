@@ -20,7 +20,7 @@ namespace task_trackerVS
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            
+
         }
 
 
@@ -36,8 +36,8 @@ namespace task_trackerVS
 
                 var cardsForSection = cardsList.Where(c => c.IdSection == sectionData.IdSection).ToList();
 
-                
-                for(int i = 0; i < cardsForSection.Count; i++)
+
+                for (int i = 0; i < cardsForSection.Count; i++)
                     db.Cards.Remove(cardsForSection[i]);
                 db.Sections.Remove(sectionData);
                 db.SaveChanges();
@@ -61,7 +61,7 @@ namespace task_trackerVS
             db.SaveChanges();
         }
 
-        
+
         private void UpdateCrads()
         {
             using (TaskTrackerDbContext db = new TaskTrackerDbContext())
@@ -150,7 +150,7 @@ namespace task_trackerVS
                 };
                 int cardCount = 0;
 
-                
+
 
                 treeView.NodeMouseClick += (s, e) =>
                 {
@@ -186,7 +186,7 @@ namespace task_trackerVS
                         cardCount++;
                         section.Controls.Add(card);
 
-                        
+
                         using (TaskTrackerDbContext db1 = new TaskTrackerDbContext())
                         {
                             var sectionDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
@@ -270,7 +270,7 @@ namespace task_trackerVS
             }
 
 
-            
+
 
             GroupBox section = new GroupBox()
             {
@@ -320,7 +320,7 @@ namespace task_trackerVS
             TreeNode childNode2 = rootNode.Nodes.Add("Добавить карточку");
             TreeNode childNode3 = rootNode.Nodes.Add("Изменить название секции");
 
-            
+
 
             treeView.AfterExpand += (s, args) =>
             {
@@ -342,7 +342,7 @@ namespace task_trackerVS
                 if (e.Node == childNode2)
                 {
                     int aboba2;
-                    var cardList = db.Cards.ToList(); 
+                    var cardList = db.Cards.ToList();
                     var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
                     var cardsForSection = cardList.Where(c => c.IdSection == sectionData.IdSection).ToList();
 
@@ -382,12 +382,12 @@ namespace task_trackerVS
                     }
                     card.textBox1.TextChanged += (s, e) =>
                     {
-                            var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name);
-                            if(aboba != null)
-                            {
-                                aboba.Content = card.textBox1.Text;
-                            }
-                            db.SaveChanges();
+                        var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name);
+                        if (aboba != null)
+                        {
+                            aboba.Content = card.textBox1.Text;
+                        }
+                        db.SaveChanges();
                     };
                 }
                 if (e.Node == childNode3)
@@ -415,13 +415,13 @@ namespace task_trackerVS
                             using (TaskTrackerDbContext db = new TaskTrackerDbContext())
                             {
                                 var renameSection = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                                if(renameSection != null)
+                                if (renameSection != null)
                                     renameSection.HeadingSection = head.Text;
                                 db.SaveChanges();
                             }
                         }
                     };
-                    
+
                     section.Controls.Add(textBox);
 
                 }
@@ -444,7 +444,13 @@ namespace task_trackerVS
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            
+            //this.Close();
+        }
 
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            
         }
     }
 }

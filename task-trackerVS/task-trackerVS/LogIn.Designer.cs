@@ -53,7 +53,7 @@
             // 
             labelHello2.AutoSize = true;
             labelHello2.Font = new Font("Segoe UI", 14F);
-            labelHello2.Location = new Point(136, 109);
+            labelHello2.Location = new Point(136, 119);
             labelHello2.Name = "labelHello2";
             labelHello2.Size = new Size(312, 25);
             labelHello2.TabIndex = 1;

@@ -40,8 +40,10 @@ namespace task_trackerVS
                     User g = users.FirstOrDefault(p => p.Login == textBoxLogin.Text && p.Password == textBoxPassword.Text);
                     if (g != null)
                     {
+                        
                         MainForm main = new MainForm();
                         this.Hide();
+                        
                         main.Show();
                     }
                     else
