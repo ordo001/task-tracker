@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 02 2024 г., 16:59
+-- Время создания: Окт 08 2024 г., 14:52
 -- Версия сервера: 8.0.30
--- Версия PHP: 7.2.34
+-- Версия PHP: 8.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,18 +31,11 @@ CREATE TABLE `cards` (
   `id_card` int NOT NULL,
   `name_card` varchar(30) NOT NULL,
   `heading` varchar(30) NOT NULL,
-  `content` varchar(70) NOT NULL,
+  `content` varchar(700) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `id_user` int DEFAULT NULL,
   `id_section` int NOT NULL,
   `cardLocation_Y` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `cards`
---
-
-INSERT INTO `cards` (`id_card`, `name_card`, `heading`, `content`, `id_user`, `id_section`, `cardLocation_Y`) VALUES
-(71, 'card1', 'Heading', 'hshgfshgfgshfghf', NULL, 150, 10);
 
 -- --------------------------------------------------------
 
@@ -57,13 +50,6 @@ CREATE TABLE `sections` (
   `sectionLocation_X` int NOT NULL,
   `sectionLocation_Y` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Дамп данных таблицы `sections`
---
-
-INSERT INTO `sections` (`id_section`, `name_section`, `heading_section`, `sectionLocation_X`, `sectionLocation_Y`) VALUES
-(150, 'section1', 'Новая карточка', 10, 140);
 
 -- --------------------------------------------------------
 
@@ -84,7 +70,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id_user`, `login`, `password`, `name`) VALUES
 (1, 'test', 'test', 'testName'),
-(2, 'test', 'test', 'testName');
+(3, 'aboba', '123', 'abobaName');
 
 --
 -- Индексы сохранённых таблиц
@@ -118,19 +104,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `cards`
 --
 ALTER TABLE `cards`
-  MODIFY `id_card` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id_card` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=282;
 
 --
 -- AUTO_INCREMENT для таблицы `sections`
 --
 ALTER TABLE `sections`
-  MODIFY `id_section` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
+  MODIFY `id_section` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

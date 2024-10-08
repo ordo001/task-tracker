@@ -8,9 +8,13 @@ namespace task_trackerVS
 {
     public partial class MainForm : Form
     {
-        public MainForm()
+        public User EntranceUser { get; }
+
+        //public MainForm(User EntranceUser)
+        public MainForm(User EntranceUser)
         {
             InitializeComponent();
+            this.EntranceUser = EntranceUser;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -23,6 +27,35 @@ namespace task_trackerVS
 
         }
 
+        private void RemoveCard(GroupBox sectionCard, UserControlCard cardToRemove)
+        {
+            using(TaskTrackerDbContext db = new TaskTrackerDbContext())
+            {
+                var cardlist = db.Cards.ToList();
+                var cardData = cardlist.FirstOrDefault(p => p.NameCard == cardToRemove.Name);
+                if(cardData != null)
+                {
+                    sectionCard.Controls.Remove(cardToRemove);
+                    db.Remove(cardData);
+                    db.SaveChanges();
+                }
+                
+                var remainingCards = sectionCard.Controls.OfType<UserControlCard>().ToList();
+
+                for(int i = 0; i< remainingCards.Count; i++)
+                {
+                    var card = remainingCards[i];
+                    card.Location = new Point(card.Location.X, 55 + (i* 220));
+                    var cardInDb = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                    if(cardInDb != null)
+                    {
+                        cardInDb.CardLocationY = card.Location.Y;
+                    }
+                }
+                db.SaveChanges();
+
+            }
+        }
 
         private void RemoveSection(GroupBox sectionToRemove)
         {
@@ -64,9 +97,12 @@ namespace task_trackerVS
 
         private void UpdateCrads()
         {
+            //using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+            //{
             using (TaskTrackerDbContext db = new TaskTrackerDbContext())
             {
                 var cardsList = db.Cards.ToList();
+
 
                 foreach (GroupBox section in Controls.OfType<GroupBox>())
                 {
@@ -75,31 +111,136 @@ namespace task_trackerVS
                     {
                         var cardsForSection = cardsList.Where(c => c.IdSection == sectionData.IdSection).ToList();
 
-                        //int cardCount = cardsForSection.Count;
-                        int cardCount = 0;
-
                         foreach (var cardData in cardsForSection)
                         {
+                            int aboba2;
+                            var cardList = db.Cards.ToList();
+
+                            if (cardList.Count > 0)
+                            {
+                                var lastCard = cardList.OrderByDescending(c => c.IdCard).FirstOrDefault();
+                                aboba2 = lastCard.IdCard;
+                            }
+                            else
+                                aboba2 = 0;
                             UserControlCard card = new UserControlCard()
                             {
 
-                                Location = new Point(10, 55 + (cardCount * 220))
+                                //Location = new Point(10, 55 + (cardCount * 220)),
+                                Location = new Point (10,cardData.CardLocationY),
+                                Name = cardData.NameCard,
+                                
                             };
-                            cardCount++;
-                            //card.Location = new Point(10, 55 + (cardCount * 220));
+                            card.labelHeading.Text = cardData.Heading;
+                            TreeView treeViewCard = new TreeView()
+                            {
+                                BackColor = Color.FromArgb(63, 68, 78),
+                                ForeColor = SystemColors.ButtonFace,
+                                ImeMode = ImeMode.Disable,
+                                Location = new Point(180, 10),
+                                Name = "treeView1",
+                                ShowPlusMinus = false,
+                                Size = new Size(100, 25),
+                                TabIndex = 1
+                            };
+                            //treeViewCard.BringToFront();
+                            TreeNode rootNode = treeViewCard.Nodes.Add("...");
+                            TreeNode childNode1 = rootNode.Nodes.Add("Удалить карточку");
+                            TreeNode childNode2 = rootNode.Nodes.Add("Изменить название карточки");
+                            TreeNode childNode3 = rootNode.Nodes.Add("Создатель");
+
+                            treeViewCard.NodeMouseClick += (s, e) =>
+                            {
+                                if (e.Node == childNode1)
+                                {
+                                    RemoveCard(section, card);
+                                }
+                                if (e.Node == childNode2)
+                                {
+                                    TextBox textBox = new TextBox
+                                    {
+                                        Size = card.labelHeading.Size,
+                                        Location = card.labelHeading.Location,
+                                        Visible = false
+                                    };
+
+                                    textBox.Text = card.labelHeading.Text;
+                                    textBox.Size = card.labelHeading.Size;
+                                    textBox.Visible = true;
+                                    card.labelHeading.Visible = false;
+                                    textBox.Focus();
+
+                                    textBox.KeyDown += (s, e) =>
+                                    {
+                                        if (e.KeyCode == Keys.Enter)
+                                        {
+                                            card.labelHeading.Text = textBox.Text;
+                                            card.labelHeading.Visible = true;
+                                            textBox.Visible = false;
+                                            using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+                                            {
+                                                var renameCard = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                                                if (renameCard != null)
+                                                    renameCard.Heading = card.labelHeading.Text;
+                                                db.SaveChanges();
+                                            }
+                                        }
+                                    };
+
+                                    card.Controls.Add(textBox);
+                                }
+                                if (e.Node == childNode3)
+                                {
+                                    TaskTrackerDbContext db2 = new TaskTrackerDbContext();
+                                    var cardSection = db2.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                                    var creator = db2.Users.FirstOrDefault(p => p.IdUser == cardSection.IdUser);
+                                    if (creator != null)
+                                        MessageBox.Show($"Создатель: {creator.Name}", "Информация о создателе", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                    else
+                                        MessageBox.Show("Создатель не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                            };
+                            treeViewCard.AfterExpand += (s, args) =>
+                            {
+                                treeViewCard.Size = new Size(200, 93);
+                                treeViewCard.BringToFront();
+
+                            };
+
+                            treeViewCard.AfterCollapse += (s, args) =>
+                            {
+                                treeViewCard.Size = new Size(100, 25);
+                            };
+                            card.Controls.Add(treeViewCard);
+
+                            card.textBox1.Text = cardData.Content;
 
                             section.Controls.Add(card);
+                            card.textBox1.LostFocus += (s, e) =>
+                            {
+                                using (TaskTrackerDbContext dbContext = new TaskTrackerDbContext())
+                                {
+                                    var aboba = dbContext.Cards.FirstOrDefault(c => c.NameCard == card.Name);
+                                    if (aboba != null)
+                                    {
+                                        aboba.Content = card.textBox1.Text;
+                                        dbContext.SaveChanges();
+                                    }
+
+                                }
+                            };
                         }
                     }
                 }
             }
+
         }
 
 
         private void Main_Load(object sender, EventArgs e)
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
-            var sectionsList = db.Sections.ToList();
+            var sectionsList = db.Sections.AsNoTracking().ToList();
             for (int i = 0; i < sectionsList.Count(); i++)
             {
                 var sectionData = sectionsList[i];
@@ -162,17 +303,10 @@ namespace task_trackerVS
                     {
                         int aboba2;
                         var cardList = db.Cards.ToList();
-                        var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                        var cardsForSection = cardList.Where(c => c.IdSection == sectionData.IdSection).ToList();
+                        var sectionCard = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                        var cardCountForSection = cardList.Where(p => p.IdSection == sectionCard.IdSection).ToList();
 
-                        if (cardsForSection.Count > 0)
-                        {
-
-                            var lastCardInSection = cardsForSection.OrderByDescending(c => c.IdCard).FirstOrDefault();
-                            aboba2 = lastCardInSection.IdCard;
-                        }
-                        else
-                            if (cardList.Count > 0)
+                        if (cardList.Count > 0)
                         {
                             var lastCard = cardList.OrderByDescending(c => c.IdCard).FirstOrDefault();
                             aboba2 = lastCard.IdCard;
@@ -182,7 +316,7 @@ namespace task_trackerVS
 
                         UserControlCard card = new UserControlCard();
                         card.Name = "card" + (aboba2 + 1).ToString();
-                        card.Location = new Point(10, 55 + (cardCount * 220));
+                        card.Location = new Point(10, 55 + (cardCountForSection.Count * 220));
                         cardCount++;
                         section.Controls.Add(card);
 
@@ -195,13 +329,94 @@ namespace task_trackerVS
                                 NameCard = card.Name,
                                 Heading = card.labelHeading.Text,
                                 Content = card.textBox1.Text,
-                                CardLocationY = card.Location.X,
+                                CardLocationY = card.Location.Y,
+                                IdUser = EntranceUser.IdUser,
                                 IdSection = sectionDb.IdSection
                             };
                             db1.Add(newCard);
                             db1.SaveChanges();
                         }
-                        card.textBox1.TextChanged += (s, e) =>
+
+                        TreeView treeViewCard = new TreeView()
+                        {
+                            BackColor = Color.FromArgb(63, 68, 78),
+                            ForeColor = SystemColors.ButtonFace,
+                            ImeMode = ImeMode.Disable,
+                            Location = new Point(180, 10),
+                            Name = "treeView1",
+                            ShowPlusMinus = false,
+                            Size = new Size(100, 25),
+                            TabIndex = 1
+                        };
+                        //treeViewCard.BringToFront();
+                        TreeNode rootNode = treeViewCard.Nodes.Add("...");
+                        TreeNode childNode1 = rootNode.Nodes.Add("Удалить карточку");
+                        TreeNode childNode2 = rootNode.Nodes.Add("Изменить название карточки");
+                        TreeNode childNode3 = rootNode.Nodes.Add("Создатель");
+
+                        treeViewCard.NodeMouseClick += (s, e) =>
+                        {
+                            if (e.Node == childNode1)
+                            {
+                                RemoveCard(section, card);
+                            }
+                            if (e.Node == childNode2)
+                            {
+                                TextBox textBox = new TextBox
+                                {
+                                    Size = card.labelHeading.Size,
+                                    Location = card.labelHeading.Location,
+                                    Visible = false
+                                };
+
+                                textBox.Text = card.labelHeading.Text;
+                                textBox.Size = card.labelHeading.Size;
+                                textBox.Visible = true;
+                                card.labelHeading.Visible = false;
+                                textBox.Focus();
+
+                                textBox.KeyDown += (s, e) =>
+                                {
+                                    if (e.KeyCode == Keys.Enter)
+                                    {
+                                        card.labelHeading.Text = textBox.Text;
+                                        card.labelHeading.Visible = true;
+                                        textBox.Visible = false;
+                                        using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+                                        {
+                                            var renameCard = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                                            if (renameCard != null)
+                                                renameCard.Heading = card.labelHeading.Text;
+                                            db.SaveChanges();
+                                        }
+                                    }
+                                };
+
+                                card.Controls.Add(textBox);
+                            }
+                            if (e.Node == childNode3)
+                            {
+                                var cardSection = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                                var creator = db.Users.FirstOrDefault(p => p.IdUser == cardSection.IdUser);
+                                if (creator != null)
+                                    MessageBox.Show($"Создатель: {creator.Name}", "Информация о создателе", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                else
+                                    MessageBox.Show("Создатель не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                        };
+                        treeViewCard.AfterExpand += (s, args) =>
+                        {
+                            treeViewCard.Size = new Size(200, 93);
+                            treeViewCard.BringToFront();
+
+                        };
+
+                        treeViewCard.AfterCollapse += (s, args) =>
+                        {
+                            treeViewCard.Size = new Size(100, 25);
+                        };
+                        card.Controls.Add(treeViewCard);
+                        card.textBox1.LostFocus += (s, e) =>
                         {
                             var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name);
                             if (aboba != null)
@@ -245,6 +460,7 @@ namespace task_trackerVS
                         section.Controls.Add(textBox);
                     }
                 };
+
                 section.Controls.Add(treeView);
                 section.Controls.Add(head);
                 Controls.Add(section);
@@ -257,6 +473,7 @@ namespace task_trackerVS
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
             var sectionsList = db.Sections.ToList();
+            
             int aboba;
             task_trackerVS.Models.Section sectionNum;
             if (sectionsList.Count > 0)
@@ -284,7 +501,7 @@ namespace task_trackerVS
 
             Label head = new Label()
             {
-                Text = "Новая карточка",
+                Text = "Новая секция",
                 Font = new Font("Bahnschrift SemiBold", 14F),
                 AutoSize = true,
                 Location = new Point(50, 20)
@@ -343,17 +560,10 @@ namespace task_trackerVS
                 {
                     int aboba2;
                     var cardList = db.Cards.ToList();
-                    var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                    var cardsForSection = cardList.Where(c => c.IdSection == sectionData.IdSection).ToList();
+                    var sectionCard = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                    var cardCountForSection = cardList.Where(p => p.IdSection == sectionCard.IdSection).ToList();
 
-                    if (cardsForSection.Count > 0)
-                    {
-
-                        var lastCardInSection = cardsForSection.OrderByDescending(c => c.IdCard).FirstOrDefault();
-                        aboba2 = lastCardInSection.IdCard;
-                    }
-                    else
-                        if (cardList.Count > 0)
+                    if (cardList.Count > 0)
                     {
                         var lastCard = cardList.OrderByDescending(c => c.IdCard).FirstOrDefault();
                         aboba2 = lastCard.IdCard;
@@ -362,7 +572,7 @@ namespace task_trackerVS
                         aboba2 = 0;
 
                     UserControlCard card = new UserControlCard();
-                    card.Location = new Point(10, 55 + (cardCount * 220));
+                    card.Location = new Point(10, 55 + (cardCountForSection.Count * 220));
                     card.Name = "card" + (aboba2 + 1).ToString();
                     cardCount++;
                     section.Controls.Add(card);
@@ -374,13 +584,100 @@ namespace task_trackerVS
                             NameCard = card.Name,
                             Heading = card.labelHeading.Text,
                             Content = card.textBox1.Text,
-                            CardLocationY = card.Location.X,
+                            CardLocationY = card.Location.Y,
+                            IdUser = EntranceUser.IdUser,
                             IdSection = sectionDb.IdSection
                         };
                         db1.Add(newCard);
                         db1.SaveChanges();
                     }
-                    card.textBox1.TextChanged += (s, e) =>
+
+                    TreeView treeViewCard = new TreeView()
+                    {
+                        BackColor = Color.FromArgb(63, 68, 78),
+                        ForeColor = SystemColors.ButtonFace,
+                        ImeMode = ImeMode.Disable,
+                        Location = new Point(180, 10),
+                        Name = "treeView1",
+                        ShowPlusMinus = false,
+                        Size = new Size(100, 25),
+                        TabIndex = 1
+                    };
+                    //treeViewCard.BringToFront();
+                    TreeNode rootNode = treeViewCard.Nodes.Add("...");
+                    TreeNode childNode1 = rootNode.Nodes.Add("Удалить карточку");
+                    TreeNode childNode2 = rootNode.Nodes.Add("Изменить название карточки");
+                    TreeNode childNode3 = rootNode.Nodes.Add("Создатель");
+
+                    treeViewCard.NodeMouseClick += (s, e) =>
+                    {
+                        if (e.Node == childNode1)
+                        {
+                            RemoveCard(section,card);
+                        }
+                        if(e.Node == childNode2)
+                        {
+                            TextBox textBox = new TextBox
+                            {
+                                Size = card.labelHeading.Size,
+                                Location = card.labelHeading.Location,
+                                Visible = false
+                            };
+
+                            textBox.Text = card.labelHeading.Text;
+                            textBox.Size = card.labelHeading.Size;
+                            textBox.Visible = true;
+                            card.labelHeading.Visible = false;
+                            textBox.Focus();
+
+                            textBox.KeyDown += (s, e) =>
+                            {
+                                if (e.KeyCode == Keys.Enter)
+                                {
+                                    card.labelHeading.Text = textBox.Text;
+                                    card.labelHeading.Visible = true;
+                                    textBox.Visible = false;
+                                    using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+                                    {
+                                        var renameCard = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                                        if (renameCard != null)
+                                            renameCard.Heading = card.labelHeading.Text;
+                                        db.SaveChanges();
+                                    }
+                                }
+                            };
+
+                            card.Controls.Add(textBox);
+                        }
+                        if(e.Node == childNode3)
+                        {
+                            var cardSection = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                            var creator = db.Users.FirstOrDefault(p => p.IdUser == cardSection.IdUser);
+                            if(creator != null)
+                                MessageBox.Show($"Создатель: {creator.Name}", "Информация о создателе", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            else
+                                MessageBox.Show("Создатель не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    };
+
+                    
+                    
+
+                    treeViewCard.AfterExpand += (s, args) =>
+                    {
+                        treeViewCard.Size = new Size(210, 93);
+                        treeViewCard.BringToFront();
+
+                    };
+
+                    treeViewCard.AfterCollapse += (s, args) =>
+                    {
+                        treeViewCard.Size = new Size(100, 25);
+                    };
+
+                    
+                    card.Controls.Add(treeViewCard);
+                    card.textBox1.LostFocus += (s, e) =>
                     {
                         var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name);
                         if (aboba != null)
@@ -444,13 +741,27 @@ namespace task_trackerVS
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            
+
             //this.Close();
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            Controls.Clear();
+            InitializeComponent();
+            Main_Load(sender, e);
             
+
         }
     }
 }

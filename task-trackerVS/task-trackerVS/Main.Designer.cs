@@ -42,9 +42,11 @@
             label2 = new Label();
             pictureBox1 = new PictureBox();
             panel1 = new Panel();
+            pictureBox2 = new PictureBox();
             contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // contextMenuStrip1
@@ -67,16 +69,16 @@
             labelMain.ForeColor = SystemColors.ButtonFace;
             labelMain.Location = new Point(145, 42);
             labelMain.Name = "labelMain";
-            labelMain.Size = new Size(308, 34);
+            labelMain.Size = new Size(366, 34);
             labelMain.TabIndex = 1;
-            labelMain.Text = "Основная доска задач";
+            labelMain.Text = "Информационные системы";
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline);
             label1.ForeColor = SystemColors.ScrollBar;
-            label1.Location = new Point(490, 46);
+            label1.Location = new Point(527, 47);
             label1.Name = "label1";
             label1.Size = new Size(132, 29);
             label1.TabIndex = 2;
@@ -87,11 +89,12 @@
             label2.AutoSize = true;
             label2.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline);
             label2.ForeColor = SystemColors.ScrollBar;
-            label2.Location = new Point(646, 46);
+            label2.Location = new Point(698, 47);
             label2.Name = "label2";
             label2.Size = new Size(141, 29);
             label2.TabIndex = 3;
             label2.Text = "Пригласить";
+            label2.Click += label2_Click;
             // 
             // pictureBox1
             // 
@@ -106,6 +109,7 @@
             // panel1
             // 
             panel1.BackColor = Color.FromArgb(45, 52, 63);
+            panel1.Controls.Add(pictureBox2);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(labelMain);
             panel1.Controls.Add(label2);
@@ -115,20 +119,32 @@
             panel1.Size = new Size(1598, 119);
             panel1.TabIndex = 6;
             // 
+            // pictureBox2
+            // 
+            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
+            pictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox2.InitialImage = (Image)resources.GetObject("pictureBox2.InitialImage");
+            pictureBox2.Location = new Point(1507, 24);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(79, 72);
+            pictureBox2.TabIndex = 6;
+            pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.FromArgb(41, 47, 57);
-            ClientSize = new Size(1600, 836);
+            ClientSize = new Size(1600, 771);
             ContextMenuStrip = contextMenuStrip1;
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Главная доска";
+            Text = "Доска Отдела Информационных систем";
             FormClosing += MainForm_FormClosing;
             FormClosed += MainForm_FormClosed;
             Load += Main_Load;
@@ -137,6 +153,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
         }
 
@@ -148,5 +165,6 @@
         private Label label2;
         private PictureBox pictureBox1;
         private Panel panel1;
+        private PictureBox pictureBox2;
     }
 }
