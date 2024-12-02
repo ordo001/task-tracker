@@ -1,6 +1,16 @@
 {
   "runtimeOptions": {
-    "tfm": "net8.0",
+    "tfm": "net7.0",
+    "frameworks": [
+      {
+        "name": "Microsoft.NETCore.App",
+        "version": "7.0.0"
+      },
+      {
+        "name": "Microsoft.WindowsDesktop.App",
+        "version": "7.0.0"
+      }
+    ],
     "additionalProbingPaths": [
       "C:\\Users\\587-22\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\587-22\\.nuget\\packages",
@@ -8,6 +18,7 @@
     ],
     "configProperties": {
       "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
+      "System.Reflection.NullabilityInfoContext.IsSupported": true,
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true
     }
   }

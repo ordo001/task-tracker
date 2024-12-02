@@ -17,16 +17,6 @@ namespace task_trackerVS
             this.EntranceUser = EntranceUser;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
         private void RemoveCard(GroupBox sectionCard, UserControlCard cardToRemove)
         {
             using(TaskTrackerDbContext db = new TaskTrackerDbContext())
@@ -94,11 +84,54 @@ namespace task_trackerVS
             db.SaveChanges();
         }
 
+        private void RenameCard(UserControlCard card)
+        {
+            TextBox textBox = new TextBox
+            {
+                Size = card.labelHeading.Size,
+                Location = card.labelHeading.Location,
+                Visible = false
+            };
+
+            textBox.Text = card.labelHeading.Text;
+            textBox.Size = card.labelHeading.Size;
+            textBox.Visible = true;
+            card.labelHeading.Visible = false;
+            textBox.Focus();
+
+            textBox.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    card.labelHeading.Text = textBox.Text;
+                    card.labelHeading.Visible = true;
+                    textBox.Visible = false;
+                    using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+                    {
+                        var renameCard = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                        if (renameCard != null)
+                            renameCard.Heading = card.labelHeading.Text;
+                        db.SaveChanges();
+                    }
+                }
+            };
+
+            card.Controls.Add(textBox);
+        }
+        private void ShowInfoCard(UserControlCard card)
+        {
+            using(TaskTrackerDbContext db = new TaskTrackerDbContext()){
+                var cardSection = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
+                var creator = db.Users.FirstOrDefault(p => p.IdUser == cardSection.IdUser);
+                if (creator != null)
+                    MessageBox.Show($"Создатель: {creator.Name}", "Информация о создателе", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Создатель не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
 
         private void UpdateCrads()
         {
-            //using (TaskTrackerDbContext db = new TaskTrackerDbContext())
-            //{
             using (TaskTrackerDbContext db = new TaskTrackerDbContext())
             {
                 var cardsList = db.Cards.ToList();
@@ -143,7 +176,6 @@ namespace task_trackerVS
                                 Size = new Size(100, 25),
                                 TabIndex = 1
                             };
-                            //treeViewCard.BringToFront();
                             TreeNode rootNode = treeViewCard.Nodes.Add("...");
                             TreeNode childNode1 = rootNode.Nodes.Add("Удалить карточку");
                             TreeNode childNode2 = rootNode.Nodes.Add("Изменить название карточки");
@@ -157,47 +189,11 @@ namespace task_trackerVS
                                 }
                                 if (e.Node == childNode2)
                                 {
-                                    TextBox textBox = new TextBox
-                                    {
-                                        Size = card.labelHeading.Size,
-                                        Location = card.labelHeading.Location,
-                                        Visible = false
-                                    };
-
-                                    textBox.Text = card.labelHeading.Text;
-                                    textBox.Size = card.labelHeading.Size;
-                                    textBox.Visible = true;
-                                    card.labelHeading.Visible = false;
-                                    textBox.Focus();
-
-                                    textBox.KeyDown += (s, e) =>
-                                    {
-                                        if (e.KeyCode == Keys.Enter)
-                                        {
-                                            card.labelHeading.Text = textBox.Text;
-                                            card.labelHeading.Visible = true;
-                                            textBox.Visible = false;
-                                            using (TaskTrackerDbContext db = new TaskTrackerDbContext())
-                                            {
-                                                var renameCard = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
-                                                if (renameCard != null)
-                                                    renameCard.Heading = card.labelHeading.Text;
-                                                db.SaveChanges();
-                                            }
-                                        }
-                                    };
-
-                                    card.Controls.Add(textBox);
+                                    RenameCard(card);
                                 }
                                 if (e.Node == childNode3)
                                 {
-                                    TaskTrackerDbContext db2 = new TaskTrackerDbContext();
-                                    var cardSection = db2.Cards.FirstOrDefault(s => s.NameCard == card.Name);
-                                    var creator = db2.Users.FirstOrDefault(p => p.IdUser == cardSection.IdUser);
-                                    if (creator != null)
-                                        MessageBox.Show($"Создатель: {creator.Name}", "Информация о создателе", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                    else
-                                        MessageBox.Show("Создатель не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    ShowInfoCard(card);
                                 }
                             };
                             treeViewCard.AfterExpand += (s, args) =>
@@ -236,8 +232,139 @@ namespace task_trackerVS
 
         }
 
+        private void AddCard(GroupBox section, int cardCount)
+        {
+            using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+            {
+                int aboba2;
+                var cardList = db.Cards.ToList();
+                var sectionCard = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                var cardCountForSection = cardList.Where(p => p.IdSection == sectionCard.IdSection).ToList();
 
-        private void Main_Load(object sender, EventArgs e)
+                if (cardList.Count > 0)
+                {
+                    var lastCard = cardList.OrderByDescending(c => c.IdCard).FirstOrDefault();
+                    aboba2 = lastCard.IdCard;
+                }
+                else
+                    aboba2 = 0;
+
+                UserControlCard card = new UserControlCard();
+                card.Name = "card" + (aboba2 + 1).ToString();
+                card.Location = new Point(10, 55 + (cardCountForSection.Count * 220));
+                cardCount++;
+                section.Controls.Add(card);
+
+
+                using (TaskTrackerDbContext db1 = new TaskTrackerDbContext())
+                {
+                    var sectionDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                    Models.Card newCard = new Models.Card
+                    {
+                        NameCard = card.Name,
+                        Heading = card.labelHeading.Text,
+                        Content = card.textBox1.Text,
+                        CardLocationY = card.Location.Y,
+                        IdUser = EntranceUser.IdUser,
+                        IdSection = sectionDb.IdSection
+                    };
+                    db1.Add(newCard);
+                    db1.SaveChanges();
+                }
+
+                TreeView treeViewCard = new TreeView()
+                {
+                    BackColor = Color.FromArgb(63, 68, 78),
+                    ForeColor = SystemColors.ButtonFace,
+                    ImeMode = ImeMode.Disable,
+                    Location = new Point(180, 10),
+                    Name = "treeView1",
+                    ShowPlusMinus = false,
+                    Size = new Size(100, 25),
+                    TabIndex = 1
+                };
+                TreeNode rootNode = treeViewCard.Nodes.Add("...");
+                TreeNode childNode1 = rootNode.Nodes.Add("Удалить карточку");
+                TreeNode childNode2 = rootNode.Nodes.Add("Изменить название карточки");
+                TreeNode childNode3 = rootNode.Nodes.Add("Создатель");
+
+                treeViewCard.NodeMouseClick += (s, e) =>
+                {
+                    using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+
+                        if (e.Node == childNode1)
+                        {
+                            RemoveCard(section, card);
+                        }
+                    if (e.Node == childNode2)
+                    {
+                        RenameCard(card);
+                    }
+                    if (e.Node == childNode3)
+                    {
+                        ShowInfoCard(card);
+                    }
+                };
+                treeViewCard.AfterExpand += (s, args) =>
+                {
+                    treeViewCard.Size = new Size(200, 93);
+                    treeViewCard.BringToFront();
+
+                };
+
+                treeViewCard.AfterCollapse += (s, args) =>
+                {
+                    treeViewCard.Size = new Size(100, 25);
+                };
+                card.Controls.Add(treeViewCard);
+                card.textBox1.LostFocus += (s, e) =>
+                {
+                    var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name);
+                    if (aboba != null)
+                    {
+                        aboba.Content = card.textBox1.Text;
+                    }
+                    db.SaveChanges();
+                };
+            }
+        }
+
+        private void RenameSection(GroupBox section, Label head)
+        {
+            TextBox textBox = new TextBox
+            {
+                Size = head.Size,
+                Location = head.Location,
+                Visible = false
+            };
+
+            textBox.Text = head.Text;
+            textBox.Size = head.Size;
+            textBox.Visible = true;
+            head.Visible = false;
+            textBox.Focus();
+
+            textBox.KeyDown += (s, e) =>
+            {
+                if (e.KeyCode == Keys.Enter)
+                {
+                    head.Text = textBox.Text;
+                    head.Visible = true;
+                    textBox.Visible = false;
+                    using (TaskTrackerDbContext db = new TaskTrackerDbContext())
+                    {
+                        var renameSection = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                        if (renameSection != null)
+                            renameSection.HeadingSection = head.Text;
+                        db.SaveChanges();
+                    }
+                }
+            };
+
+            section.Controls.Add(textBox);
+        }
+
+        private void LoadCardFromDb()
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
             var sectionsList = db.Sections.AsNoTracking().ToList();
@@ -301,163 +428,11 @@ namespace task_trackerVS
                     }
                     if (e.Node == childNode2)
                     {
-                        int aboba2;
-                        var cardList = db.Cards.ToList();
-                        var sectionCard = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                        var cardCountForSection = cardList.Where(p => p.IdSection == sectionCard.IdSection).ToList();
-
-                        if (cardList.Count > 0)
-                        {
-                            var lastCard = cardList.OrderByDescending(c => c.IdCard).FirstOrDefault();
-                            aboba2 = lastCard.IdCard;
-                        }
-                        else
-                            aboba2 = 0;
-
-                        UserControlCard card = new UserControlCard();
-                        card.Name = "card" + (aboba2 + 1).ToString();
-                        card.Location = new Point(10, 55 + (cardCountForSection.Count * 220));
-                        cardCount++;
-                        section.Controls.Add(card);
-
-
-                        using (TaskTrackerDbContext db1 = new TaskTrackerDbContext())
-                        {
-                            var sectionDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                            Models.Card newCard = new Models.Card
-                            {
-                                NameCard = card.Name,
-                                Heading = card.labelHeading.Text,
-                                Content = card.textBox1.Text,
-                                CardLocationY = card.Location.Y,
-                                IdUser = EntranceUser.IdUser,
-                                IdSection = sectionDb.IdSection
-                            };
-                            db1.Add(newCard);
-                            db1.SaveChanges();
-                        }
-
-                        TreeView treeViewCard = new TreeView()
-                        {
-                            BackColor = Color.FromArgb(63, 68, 78),
-                            ForeColor = SystemColors.ButtonFace,
-                            ImeMode = ImeMode.Disable,
-                            Location = new Point(180, 10),
-                            Name = "treeView1",
-                            ShowPlusMinus = false,
-                            Size = new Size(100, 25),
-                            TabIndex = 1
-                        };
-                        //treeViewCard.BringToFront();
-                        TreeNode rootNode = treeViewCard.Nodes.Add("...");
-                        TreeNode childNode1 = rootNode.Nodes.Add("Удалить карточку");
-                        TreeNode childNode2 = rootNode.Nodes.Add("Изменить название карточки");
-                        TreeNode childNode3 = rootNode.Nodes.Add("Создатель");
-
-                        treeViewCard.NodeMouseClick += (s, e) =>
-                        {
-                            if (e.Node == childNode1)
-                            {
-                                RemoveCard(section, card);
-                            }
-                            if (e.Node == childNode2)
-                            {
-                                TextBox textBox = new TextBox
-                                {
-                                    Size = card.labelHeading.Size,
-                                    Location = card.labelHeading.Location,
-                                    Visible = false
-                                };
-
-                                textBox.Text = card.labelHeading.Text;
-                                textBox.Size = card.labelHeading.Size;
-                                textBox.Visible = true;
-                                card.labelHeading.Visible = false;
-                                textBox.Focus();
-
-                                textBox.KeyDown += (s, e) =>
-                                {
-                                    if (e.KeyCode == Keys.Enter)
-                                    {
-                                        card.labelHeading.Text = textBox.Text;
-                                        card.labelHeading.Visible = true;
-                                        textBox.Visible = false;
-                                        using (TaskTrackerDbContext db = new TaskTrackerDbContext())
-                                        {
-                                            var renameCard = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
-                                            if (renameCard != null)
-                                                renameCard.Heading = card.labelHeading.Text;
-                                            db.SaveChanges();
-                                        }
-                                    }
-                                };
-
-                                card.Controls.Add(textBox);
-                            }
-                            if (e.Node == childNode3)
-                            {
-                                var cardSection = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
-                                var creator = db.Users.FirstOrDefault(p => p.IdUser == cardSection.IdUser);
-                                if (creator != null)
-                                    MessageBox.Show($"Создатель: {creator.Name}", "Информация о создателе", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                else
-                                    MessageBox.Show("Создатель не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            }
-                        };
-                        treeViewCard.AfterExpand += (s, args) =>
-                        {
-                            treeViewCard.Size = new Size(200, 93);
-                            treeViewCard.BringToFront();
-
-                        };
-
-                        treeViewCard.AfterCollapse += (s, args) =>
-                        {
-                            treeViewCard.Size = new Size(100, 25);
-                        };
-                        card.Controls.Add(treeViewCard);
-                        card.textBox1.LostFocus += (s, e) =>
-                        {
-                            var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name);
-                            if (aboba != null)
-                            {
-                                aboba.Content = card.textBox1.Text;
-                            }
-                            db.SaveChanges();
-                        };
+                        AddCard(section, cardCount);
                     }
                     if (e.Node == childNode3)
                     {
-                        TextBox textBox = new TextBox
-                        {
-                            Size = head.Size,
-                            Location = head.Location,
-                            Visible = false
-                        };
-
-                        textBox.Text = head.Text;
-                        textBox.Size = head.Size;
-                        textBox.Visible = true;
-                        head.Visible = false;
-                        textBox.Focus();
-
-                        textBox.KeyDown += (s, e) =>
-                        {
-                            if (e.KeyCode == Keys.Enter)
-                            {
-                                head.Text = textBox.Text;
-                                head.Visible = true;
-                                textBox.Visible = false;
-                                using (TaskTrackerDbContext db = new TaskTrackerDbContext())
-                                {
-                                    var renameSection = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                                    if (renameSection != null)
-                                        renameSection.HeadingSection = head.Text;
-                                    db.SaveChanges();
-                                }
-                            }
-                        };
-                        section.Controls.Add(textBox);
+                        RenameSection(section, head);
                     }
                 };
 
@@ -468,12 +443,16 @@ namespace task_trackerVS
             UpdateCrads();
         }
 
+        private void Main_Load(object sender, EventArgs e)
+        {
+            LoadCardFromDb();
+        }
 
-        private void cardsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void AddSection()
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
             var sectionsList = db.Sections.ToList();
-            
+
             int aboba;
             task_trackerVS.Models.Section sectionNum;
             if (sectionsList.Count > 0)
@@ -485,8 +464,6 @@ namespace task_trackerVS
             {
                 aboba = 0;
             }
-
-
 
 
             GroupBox section = new GroupBox()
@@ -558,168 +535,11 @@ namespace task_trackerVS
                 }
                 if (e.Node == childNode2)
                 {
-                    int aboba2;
-                    var cardList = db.Cards.ToList();
-                    var sectionCard = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                    var cardCountForSection = cardList.Where(p => p.IdSection == sectionCard.IdSection).ToList();
-
-                    if (cardList.Count > 0)
-                    {
-                        var lastCard = cardList.OrderByDescending(c => c.IdCard).FirstOrDefault();
-                        aboba2 = lastCard.IdCard;
-                    }
-                    else
-                        aboba2 = 0;
-
-                    UserControlCard card = new UserControlCard();
-                    card.Location = new Point(10, 55 + (cardCountForSection.Count * 220));
-                    card.Name = "card" + (aboba2 + 1).ToString();
-                    cardCount++;
-                    section.Controls.Add(card);
-                    using (TaskTrackerDbContext db1 = new TaskTrackerDbContext())
-                    {
-                        var sectionDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                        Models.Card newCard = new Models.Card
-                        {
-                            NameCard = card.Name,
-                            Heading = card.labelHeading.Text,
-                            Content = card.textBox1.Text,
-                            CardLocationY = card.Location.Y,
-                            IdUser = EntranceUser.IdUser,
-                            IdSection = sectionDb.IdSection
-                        };
-                        db1.Add(newCard);
-                        db1.SaveChanges();
-                    }
-
-                    TreeView treeViewCard = new TreeView()
-                    {
-                        BackColor = Color.FromArgb(63, 68, 78),
-                        ForeColor = SystemColors.ButtonFace,
-                        ImeMode = ImeMode.Disable,
-                        Location = new Point(180, 10),
-                        Name = "treeView1",
-                        ShowPlusMinus = false,
-                        Size = new Size(100, 25),
-                        TabIndex = 1
-                    };
-                    //treeViewCard.BringToFront();
-                    TreeNode rootNode = treeViewCard.Nodes.Add("...");
-                    TreeNode childNode1 = rootNode.Nodes.Add("Удалить карточку");
-                    TreeNode childNode2 = rootNode.Nodes.Add("Изменить название карточки");
-                    TreeNode childNode3 = rootNode.Nodes.Add("Создатель");
-
-                    treeViewCard.NodeMouseClick += (s, e) =>
-                    {
-                        if (e.Node == childNode1)
-                        {
-                            RemoveCard(section,card);
-                        }
-                        if(e.Node == childNode2)
-                        {
-                            TextBox textBox = new TextBox
-                            {
-                                Size = card.labelHeading.Size,
-                                Location = card.labelHeading.Location,
-                                Visible = false
-                            };
-
-                            textBox.Text = card.labelHeading.Text;
-                            textBox.Size = card.labelHeading.Size;
-                            textBox.Visible = true;
-                            card.labelHeading.Visible = false;
-                            textBox.Focus();
-
-                            textBox.KeyDown += (s, e) =>
-                            {
-                                if (e.KeyCode == Keys.Enter)
-                                {
-                                    card.labelHeading.Text = textBox.Text;
-                                    card.labelHeading.Visible = true;
-                                    textBox.Visible = false;
-                                    using (TaskTrackerDbContext db = new TaskTrackerDbContext())
-                                    {
-                                        var renameCard = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
-                                        if (renameCard != null)
-                                            renameCard.Heading = card.labelHeading.Text;
-                                        db.SaveChanges();
-                                    }
-                                }
-                            };
-
-                            card.Controls.Add(textBox);
-                        }
-                        if(e.Node == childNode3)
-                        {
-                            var cardSection = db.Cards.FirstOrDefault(s => s.NameCard == card.Name);
-                            var creator = db.Users.FirstOrDefault(p => p.IdUser == cardSection.IdUser);
-                            if(creator != null)
-                                MessageBox.Show($"Создатель: {creator.Name}", "Информация о создателе", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            else
-                                MessageBox.Show("Создатель не найден.", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        }
-                    };
-
-                    
-                    
-
-                    treeViewCard.AfterExpand += (s, args) =>
-                    {
-                        treeViewCard.Size = new Size(210, 93);
-                        treeViewCard.BringToFront();
-
-                    };
-
-                    treeViewCard.AfterCollapse += (s, args) =>
-                    {
-                        treeViewCard.Size = new Size(100, 25);
-                    };
-
-                    
-                    card.Controls.Add(treeViewCard);
-                    card.textBox1.LostFocus += (s, e) =>
-                    {
-                        var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name);
-                        if (aboba != null)
-                        {
-                            aboba.Content = card.textBox1.Text;
-                        }
-                        db.SaveChanges();
-                    };
+                    AddCard(section, cardCount);
                 }
                 if (e.Node == childNode3)
                 {
-                    TextBox textBox = new TextBox
-                    {
-                        Size = head.Size,
-                        Location = head.Location,
-                        Visible = false
-                    };
-
-                    textBox.Text = head.Text;
-                    textBox.Size = head.Size;
-                    textBox.Visible = true;
-                    head.Visible = false;
-                    textBox.Focus();
-
-                    textBox.KeyDown += (s, e) =>
-                    {
-                        if (e.KeyCode == Keys.Enter)
-                        {
-                            head.Text = textBox.Text;
-                            head.Visible = true;
-                            textBox.Visible = false;
-                            using (TaskTrackerDbContext db = new TaskTrackerDbContext())
-                            {
-                                var renameSection = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                                if (renameSection != null)
-                                    renameSection.HeadingSection = head.Text;
-                                db.SaveChanges();
-                            }
-                        }
-                    };
-
-                    section.Controls.Add(textBox);
+                    RenameSection(section, head);
 
                 }
             };
@@ -728,30 +548,14 @@ namespace task_trackerVS
             Controls.Add(section);
         }
 
-
-        private void label1_Click(object sender, EventArgs e)
+        private void cardsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AddSection();
         }
 
         private void Main_Resize(object sender, EventArgs e)
         {
             panel1.Dock = DockStyle.Top;
-
-        }
-
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-            //this.Close();
-        }
-
-        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
 
         }
 

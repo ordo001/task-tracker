@@ -94,7 +94,6 @@
             label2.Size = new Size(141, 29);
             label2.TabIndex = 3;
             label2.Text = "Пригласить";
-            label2.Click += label2_Click;
             // 
             // pictureBox1
             // 
@@ -145,8 +144,6 @@
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Доска Отдела Информационных систем";
-            FormClosing += MainForm_FormClosing;
-            FormClosed += MainForm_FormClosed;
             Load += Main_Load;
             Resize += Main_Resize;
             contextMenuStrip1.ResumeLayout(false);
