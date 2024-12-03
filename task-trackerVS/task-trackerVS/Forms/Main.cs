@@ -448,6 +448,26 @@ namespace task_trackerVS
             LoadCardFromDb();
         }
 
+        private void AddSectionTest()
+        {
+            using(var db = new TaskTrackerDbContext())
+            {
+                var sectionsList = db.Sections.ToList();
+                List<task_trackerVS.Models.Section> sections = new List<task_trackerVS.Models.Section>();
+                GroupBox section = new GroupBox()
+                {
+                    Location = new Point(10 + (sectionsList.Count * 460), 140),
+                    Name = sectionsList.Count > 0 ? "section" + sectionsList[sectionsList.Count - 1].IdSection.ToString() : "section0",
+                    Size = new Size(420, 100),
+                    TabStop = false,
+                    AutoSize = true,
+                    ForeColor = SystemColors.ButtonFace
+                };
+
+
+            }
+        }
+
         private void AddSection()
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();

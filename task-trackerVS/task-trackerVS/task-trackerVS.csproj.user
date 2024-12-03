@@ -4,16 +4,16 @@
     <_LastSelectedProfileId>C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="Main.cs">
+    <Compile Update="Forms\Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="LogIn.cs">
+    <Compile Update="Forms\LogIn.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="SignUp.cs">
+    <Compile Update="Forms\SignUp.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="UserControlCard.cs">
+    <Compile Update="Forms\UserControlCard.cs">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>

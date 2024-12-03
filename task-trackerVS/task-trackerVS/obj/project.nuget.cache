@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jTaeIOy1FnrkfSWWuMW/Ff5JI12EYWrbjWBoyWtur9gLQSYlildthDe7uN2kXlQA1wn6QIZOXaQK9IuQG3Hq8Q==",
+  "dgSpecHash": "I/jxlRUpwEdyGti043cQ8hgW7gS1hzr3WG9TXhnXU37BJXDz9voVBx9eOTCZY9z2PHHHr5K0ucp39kqKRBi4KQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\587-22\\Desktop\\task-tracker-main\\task-trackerVS\\task-trackerVS\\task-trackerVS.csproj",
+  "projectFilePath": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\task-trackerVS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\587-22\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.2\\microsoft.entityframeworkcore.7.0.2.nupkg.sha512",
     "C:\\Users\\587-22\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.2\\microsoft.entityframeworkcore.abstractions.7.0.2.nupkg.sha512",
