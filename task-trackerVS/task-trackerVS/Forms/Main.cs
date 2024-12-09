@@ -232,6 +232,7 @@ namespace task_trackerVS
             }
 
         }
+        //
 
         private void AddCard(GroupBox section, int cardCount)
         {
