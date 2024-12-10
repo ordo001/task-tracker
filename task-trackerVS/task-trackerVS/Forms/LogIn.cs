@@ -36,12 +36,12 @@ namespace task_trackerVS
             {
                 using (TaskTrackerDbContext db = new TaskTrackerDbContext())
                 {
+
                     var users = db.Users.AsNoTracking().ToList();
-                    User g = users.FirstOrDefault(p => p.Login == textBoxLogin.Text && p.Password == textBoxPassword.Text);
+                    User? g = users.FirstOrDefault(p => p.Login == textBoxLogin.Text && p.Password == textBoxPassword.Text);
                     if (g != null)
                     {
-                        MainForm main = new MainForm(g);
-                        //MainForm main = new MainForm();
+                        WorkSpace1 main = new WorkSpace1(g);
                         this.Hide();
                         main.Show();
                     }

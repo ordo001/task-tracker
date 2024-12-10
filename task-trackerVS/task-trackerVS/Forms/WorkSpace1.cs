@@ -6,12 +6,12 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace task_trackerVS
 {
-    public partial class MainForm : Form
+    public partial class WorkSpace1 : Form
     {
         public User EntranceUser { get; }
 
         //public MainForm(User EntranceUser)
-        public MainForm(User EntranceUser)
+        public WorkSpace1(User EntranceUser)
         {
             InitializeComponent();
             this.EntranceUser = EntranceUser;
@@ -232,7 +232,6 @@ namespace task_trackerVS
             }
 
         }
-        //
 
         private void AddCard(GroupBox section, int cardCount)
         {
@@ -459,6 +458,7 @@ namespace task_trackerVS
                 Models.Section newSection = new Models.Section
                 {
                     NameSection = section.Name,
+                    IdWorkSpace = 1,
                     HeadingSection = head.Text,
                     SectionLocationX = section.Location.X,
                     SectionLocationY = section.Location.Y,

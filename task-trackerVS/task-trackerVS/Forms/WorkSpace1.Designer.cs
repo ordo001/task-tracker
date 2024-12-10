@@ -1,7 +1,7 @@
 ﻿namespace task_trackerVS
 {
     using System.ComponentModel.Design;
-    partial class MainForm
+    partial class WorkSpace1
     {
         /// <summary>
         ///  Required designer variable.
@@ -34,7 +34,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkSpace1));
             contextMenuStrip1 = new ContextMenuStrip(components);
             cardsToolStripMenuItem = new ToolStripMenuItem();
             labelMain = new Label();
