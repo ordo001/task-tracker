@@ -1,7 +1,7 @@
 ﻿namespace task_trackerVS
 {
     using System.ComponentModel.Design;
-    partial class WorkSpace1
+    partial class WorkSpaceForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -34,7 +34,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkSpace1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WorkSpaceForm));
             contextMenuStrip1 = new ContextMenuStrip(components);
             cardsToolStripMenuItem = new ToolStripMenuItem();
             labelMain = new Label();
@@ -65,7 +65,7 @@
             // labelMain
             // 
             labelMain.AutoSize = true;
-            labelMain.Font = new Font("Bahnschrift SemiBold", 21F);
+            labelMain.Font = new Font("Bahnschrift SemiBold", 21F, FontStyle.Regular, GraphicsUnit.Point);
             labelMain.ForeColor = SystemColors.ButtonFace;
             labelMain.Location = new Point(145, 42);
             labelMain.Name = "labelMain";
@@ -76,20 +76,22 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline);
+            label1.Cursor = Cursors.Hand;
+            label1.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline, GraphicsUnit.Point);
             label1.ForeColor = SystemColors.ScrollBar;
-            label1.Location = new Point(527, 47);
+            label1.Location = new Point(645, 47);
             label1.Name = "label1";
             label1.Size = new Size(132, 29);
             label1.TabIndex = 2;
             label1.Text = "Участники";
+            label1.Click += label1_Click;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline);
+            label2.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline, GraphicsUnit.Point);
             label2.ForeColor = SystemColors.ScrollBar;
-            label2.Location = new Point(698, 47);
+            label2.Location = new Point(818, 47);
             label2.Name = "label2";
             label2.Size = new Size(141, 29);
             label2.TabIndex = 3;
@@ -113,9 +115,10 @@
             panel1.Controls.Add(labelMain);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
-            panel1.Location = new Point(2, 12);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1598, 119);
+            panel1.Size = new Size(1603, 119);
             panel1.TabIndex = 6;
             // 
             // pictureBox2
@@ -123,25 +126,26 @@
             pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
             pictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox2.InitialImage = (Image)resources.GetObject("pictureBox2.InitialImage");
-            pictureBox2.Location = new Point(1507, 24);
+            pictureBox2.Location = new Point(1514, 0);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(79, 72);
+            pictureBox2.Size = new Size(84, 119);
             pictureBox2.TabIndex = 6;
             pictureBox2.TabStop = false;
             pictureBox2.Click += pictureBox2_Click;
             // 
-            // MainForm
+            // WorkSpaceForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             AutoScroll = true;
             BackColor = Color.FromArgb(41, 47, 57);
-            ClientSize = new Size(1600, 771);
+            ClientSize = new Size(1603, 772);
             ContextMenuStrip = contextMenuStrip1;
             Controls.Add(panel1);
             Icon = (Icon)resources.GetObject("$this.Icon");
             KeyPreview = true;
-            Name = "MainForm";
+            MinimumSize = new Size(1136, 0);
+            Name = "WorkSpaceForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Доска Отдела Информационных систем";
             Load += Main_Load;
@@ -157,11 +161,11 @@
         #endregion
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem cardsToolStripMenuItem;
-        private Label labelMain;
         private Label label1;
         private Label label2;
         private PictureBox pictureBox1;
         private Panel panel1;
         private PictureBox pictureBox2;
+        public Label labelMain;
     }
 }

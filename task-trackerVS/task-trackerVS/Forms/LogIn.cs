@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using task_trackerVS.Models;
+using task_trackerVS.Forms;
 
 namespace task_trackerVS
 {
@@ -38,10 +39,10 @@ namespace task_trackerVS
                 {
 
                     var users = db.Users.AsNoTracking().ToList();
-                    User? g = users.FirstOrDefault(p => p.Login == textBoxLogin.Text && p.Password == textBoxPassword.Text);
-                    if (g != null)
+                    var user = users.FirstOrDefault(p => p.Login == textBoxLogin.Text && p.Password == textBoxPassword.Text);
+                    if (user != null)
                     {
-                        WorkSpace1 main = new WorkSpace1(g);
+                        ChoiceWorkSpace main = new ChoiceWorkSpace(user);
                         this.Hide();
                         main.Show();
                     }

@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Data;
 using System.Security.AccessControl;
 using System.Windows.Forms;
 using task_trackerVS.Models;
@@ -6,15 +8,17 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace task_trackerVS
 {
-    public partial class WorkSpace1 : Form
+    public partial class WorkSpaceForm : Form
     {
-        public User EntranceUser { get; }
+        public User? EntranceUser { get; }
+        public int IdWorkSpace { get; }
 
         //public MainForm(User EntranceUser)
-        public WorkSpace1(User EntranceUser)
+        public WorkSpaceForm(int idWorkSpace)
         {
             InitializeComponent();
             this.EntranceUser = EntranceUser;
+            this.IdWorkSpace = idWorkSpace;
         }
 
         private void RemoveCard(GroupBox sectionCard, UserControlCard cardToRemove)
@@ -50,38 +54,42 @@ namespace task_trackerVS
         private void RemoveSection(GroupBox sectionToRemove)
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
+            RemoveSectionFromDb(sectionToRemove, db);
+            RemoveSectionInFormAndUpdateDb(sectionToRemove, db);
+            db.SaveChanges();
+        }
 
+        private void RemoveSectionInFormAndUpdateDb(GroupBox sectionToRemove, TaskTrackerDbContext db)
+        {
             Controls.Remove(sectionToRemove);
-            var cardsList = db.Cards.ToList();
-            var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == sectionToRemove.Name);
-            if (sectionData != null)
-            {
-
-                var cardsForSection = cardsList.Where(c => c.IdSection == sectionData.IdSection).ToList();
-
-
-                for (int i = 0; i < cardsForSection.Count; i++)
-                    db.Cards.Remove(cardsForSection[i]);
-                db.Sections.Remove(sectionData);
-                db.SaveChanges();
-            }
-
             var remainingSections = Controls.OfType<GroupBox>().Where(s => s.Name.StartsWith("section")).ToList();
-
             for (int i = 0; i < remainingSections.Count; i++)
             {
                 var section = remainingSections[i];
                 section.Location = new Point(10 + (i * 460), section.Location.Y);
 
-                var sectionInDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                var sectionInDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name && s.IdWorkSpace == IdWorkSpace);
                 if (sectionInDb != null)
                 {
                     sectionInDb.SectionLocationX = section.Location.X;
                     sectionInDb.SectionLocationY = section.Location.Y;
                 }
             }
+        }
 
-            db.SaveChanges();
+        private void RemoveSectionFromDb(GroupBox sectionToRemove, TaskTrackerDbContext db)
+        {
+            var cardsList = db.Cards.ToList();
+            var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == sectionToRemove.Name && s.IdWorkSpace == IdWorkSpace);
+            if (sectionData != null)
+            {
+                var cardsForSection = cardsList.Where(c => c.IdSection == sectionData.IdSection).ToList();
+
+                for (int i = 0; i < cardsForSection.Count; i++)
+                    db.Cards.Remove(cardsForSection[i]);
+                db.Sections.Remove(sectionData);
+                db.SaveChanges();
+            }
         }
 
         private void RenameCard(UserControlCard card)
@@ -147,16 +155,7 @@ namespace task_trackerVS
 
                         foreach (var cardData in cardsForSection)
                         {
-                            int aboba2;
-                            var cardList = db.Cards.ToList();
 
-                            if (cardList.Count > 0)
-                            {
-                                var lastCard = cardList.OrderByDescending(c => c.IdCard).FirstOrDefault();
-                                aboba2 = lastCard.IdCard;
-                            }
-                            else
-                                aboba2 = 0;
                             UserControlCard card = new UserControlCard()
                             {
 
@@ -237,21 +236,11 @@ namespace task_trackerVS
         {
             using (TaskTrackerDbContext db = new TaskTrackerDbContext())
             {
-                int aboba2;
-                var cardList = db.Cards.ToList();
                 var sectionCard = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                var cardCountForSection = cardList.Where(p => p.IdSection == sectionCard.IdSection).ToList();
-
-                if (cardList.Count > 0)
-                {
-                    var lastCard = cardList.OrderByDescending(c => c.IdCard).FirstOrDefault();
-                    aboba2 = lastCard.IdCard;
-                }
-                else
-                    aboba2 = 0;
+                var cardCountForSection = db.Cards.Where(p => p.IdSection == sectionCard.IdSection).ToList();
 
                 UserControlCard card = new UserControlCard();
-                card.Name = "card" + (aboba2 + 1).ToString();
+                card.Name = cardCountForSection.Count > 0 ? "card" + cardCountForSection[cardCountForSection.Count - 1].IdCard.ToString() : "card0";
                 card.Location = new Point(10, 55 + (cardCountForSection.Count * 220));
                 cardCount++;
                 section.Controls.Add(card);
@@ -378,9 +367,9 @@ namespace task_trackerVS
         private void LoadSectionFromDb()
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
-            var sectionsList = db.Sections.AsNoTracking().ToList();
+            var sectionsInWorkSpaceList = db.Sections.Where(x => x.IdWorkSpace == IdWorkSpace).AsNoTracking().ToList();
 
-            foreach (var item in sectionsList)
+            foreach (var item in sectionsInWorkSpaceList)
             {
                 GroupBox section = new GroupBox()
                 {
@@ -408,12 +397,12 @@ namespace task_trackerVS
         {
             using (var db = new TaskTrackerDbContext())
             {
-                var sectionsList = db.Sections.ToList();
+                var sectionsInWorkSpaceList = db.Sections.Where(x => x.IdWorkSpace == IdWorkSpace).AsNoTracking().ToList();
                 List<task_trackerVS.Models.Section> sections = new List<task_trackerVS.Models.Section>();
                 GroupBox section = new GroupBox()
                 {
-                    Location = new Point(10 + (sectionsList.Count * 460), 140),
-                    Name = sectionsList.Count > 0 ? "section" + sectionsList[sectionsList.Count - 1].IdSection.ToString() : "section0",
+                    Location = new Point(10 + (sectionsInWorkSpaceList.Count * 460), 140),
+                    Name = sectionsInWorkSpaceList.Count > 0 ? "section" + sectionsInWorkSpaceList[sectionsInWorkSpaceList.Count - 1].IdSection.ToString() : "section0",
                     Size = new Size(420, 100),
                     TabStop = false,
                     AutoSize = true,
@@ -458,7 +447,7 @@ namespace task_trackerVS
                 Models.Section newSection = new Models.Section
                 {
                     NameSection = section.Name,
-                    IdWorkSpace = 1,
+                    IdWorkSpace = IdWorkSpace,
                     HeadingSection = head.Text,
                     SectionLocationX = section.Location.X,
                     SectionLocationY = section.Location.Y,
@@ -513,7 +502,7 @@ namespace task_trackerVS
 
                     RenameSection(section);
                 }
-                
+
             };
             section.Controls.Add(treeView);
         }
@@ -525,7 +514,7 @@ namespace task_trackerVS
 
         private void Main_Resize(object sender, EventArgs e)
         {
-            panel1.Dock = DockStyle.Top;
+            pictureBox2.Dock = DockStyle.Right;
 
         }
 
@@ -536,6 +525,41 @@ namespace task_trackerVS
             Main_Load(sender, e);
 
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            TaskTrackerDbContext db = new TaskTrackerDbContext();
+            var workSpace = db.WorkSpaces.Include(u => u.Users).FirstOrDefault(u => u.IdWorkSpace == IdWorkSpace);
+            var CommunityWorkSpace = workSpace.Users.ToList();
+            OpenFormListCommunity(CommunityWorkSpace);
+        }
+
+        private void OpenFormListCommunity(List<User> CommunityWorkSpace)
+        {
+            Form form = new Form()
+            {
+                Text = "Список участников доски",
+            };
+
+            ListBox listBoxCommunity = new ListBox() { 
+                Dock = DockStyle.Fill, Size = new Size(400,100),
+                Font = new Font(label1.Font.FontFamily, 13)
+            };
+
+            FillListBoxCommunity(listBoxCommunity, CommunityWorkSpace);
+
+            form.Controls.Add(listBoxCommunity);
+            form.ShowDialog();
+        }
+        private void FillListBoxCommunity(ListBox listBox, List<User> CommunityWorkSpace)
+        {
+            listBox.Items.Add($"Всего участников: {CommunityWorkSpace.Count}");
+            listBox.Items.Add($"Список участников:");
+            foreach(var user in CommunityWorkSpace)
+            {
+                listBox.Items.Add(user.Name);
+            }
         }
     }
 }

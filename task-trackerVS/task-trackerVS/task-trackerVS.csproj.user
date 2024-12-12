@@ -10,7 +10,7 @@
     <Compile Update="Forms\UserControls\OptionWorkSpace.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Forms\WorkSpace1.cs">
+    <Compile Update="Forms\WorkSpaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Forms\LogIn.cs">

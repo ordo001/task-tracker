@@ -46,9 +46,7 @@ namespace task_trackerVS.Models
 
                 entity.HasIndex(e => e.IdUser, "id_user");
 
-                entity.Property(e => e.IdCard)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id_card");
+                entity.Property(e => e.IdCard).HasColumnName("id_card");
 
                 entity.Property(e => e.CardLocationY).HasColumnName("cardLocation_Y");
 
@@ -78,9 +76,7 @@ namespace task_trackerVS.Models
 
                 entity.HasIndex(e => e.IdWorkSpace, "id_work_space");
 
-                entity.Property(e => e.IdSection)
-                    .ValueGeneratedNever()
-                    .HasColumnName("id_section");
+                entity.Property(e => e.IdSection).HasColumnName("id_section");
 
                 entity.Property(e => e.HeadingSection)
                     .HasMaxLength(30)
@@ -123,6 +119,11 @@ namespace task_trackerVS.Models
                 entity.Property(e => e.Password)
                     .HasMaxLength(30)
                     .HasColumnName("password");
+
+                entity.Property(e => e.Role)
+                    .HasMaxLength(30)
+                    .HasColumnName("role")
+                    .HasDefaultValueSql("'Default'");
 
                 entity.HasMany(d => d.WorkSpaces)
                     .WithMany(p => p.Users)

@@ -28,12 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionWorkSpace));
             pictureBox1 = new PictureBox();
             labelNameWC = new Label();
             labelCommunity = new Label();
             labelCommunityCount = new Label();
             buttonGoTo = new Button();
+            pictureBox2 = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             SuspendLayout();
             // 
             // pictureBox1
@@ -87,19 +90,32 @@
             buttonGoTo.Text = "Перейти";
             buttonGoTo.UseVisualStyleBackColor = false;
             // 
+            // pictureBox2
+            // 
+            pictureBox2.Image = (Image)resources.GetObject("pictureBox2.Image");
+            pictureBox2.Location = new Point(320, 4);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(49, 40);
+            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox2.TabIndex = 5;
+            pictureBox2.TabStop = false;
+            pictureBox2.Visible = false;
+            // 
             // OptionWorkSpace
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(63, 68, 78);
+            Controls.Add(pictureBox2);
             Controls.Add(buttonGoTo);
             Controls.Add(labelCommunityCount);
             Controls.Add(labelCommunity);
             Controls.Add(labelNameWC);
             Controls.Add(pictureBox1);
             Name = "OptionWorkSpace";
-            Size = new Size(377, 395);
+            Size = new Size(377, 380);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -107,9 +123,10 @@
         #endregion
 
         private PictureBox pictureBox1;
-        private Label labelNameWC;
         private Label labelCommunity;
-        private Label labelCommunityCount;
-        private Button buttonGoTo;
+        public Button buttonGoTo;
+        public Label labelNameWC;
+        public Label labelCommunityCount;
+        public PictureBox pictureBox2;
     }
 }
