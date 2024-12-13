@@ -17,9 +17,7 @@ C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\Microsoft.Extensions.Primitives.dll
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\MySqlConnector.dll
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\Pomelo.EntityFrameworkCore.MySql.dll
-C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\System.Text.Encodings.Web.dll
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\System.Text.Json.dll
-C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\runtimes\browser\lib\net6.0\System.Text.Encodings.Web.dll
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task-trackerVS.csproj.AssemblyReference.cache
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.LogIn.resources
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.SignUp.resources
@@ -39,7 +37,6 @@ C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\ref\task-trackerVS.dll
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\Humanizer.dll
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.WorkSpace1.resources
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\task-trackerVS.exe
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\task-trackerVS.deps.json
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\bin\Release\net6.0-windows7.0\task-trackerVS.runtimeconfig.json
@@ -82,3 +79,6 @@ C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Release\ne
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task-trackerVS.genruntimeconfig.cache
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\ref\task-trackerVS.dll
 C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.WorkSpaceForm.resources
+C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.Forms.ChoiceWorkSpace.resources
+C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.Forms.UserControls.OptionWorkSpace.resources
+C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.WorkSpaceForm.resources

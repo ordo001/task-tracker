@@ -34,6 +34,8 @@
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
             labelMain = new Label();
+            labelRemove = new Label();
+            labelAdd = new Label();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
@@ -93,12 +95,39 @@
             labelMain.TabIndex = 1;
             labelMain.Text = "Выберите рабочее пространство";
             // 
+            // labelRemove
+            // 
+            labelRemove.AutoSize = true;
+            labelRemove.Cursor = Cursors.Hand;
+            labelRemove.Font = new Font("Bahnschrift SemiBold", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            labelRemove.ForeColor = SystemColors.ButtonFace;
+            labelRemove.Location = new Point(16, 582);
+            labelRemove.Name = "labelRemove";
+            labelRemove.Size = new Size(260, 24);
+            labelRemove.TabIndex = 7;
+            labelRemove.Text = "Удалить выбранные доски";
+            labelRemove.Click += labelRemove_Click;
+            // 
+            // labelAdd
+            // 
+            labelAdd.AutoSize = true;
+            labelAdd.Cursor = Cursors.Hand;
+            labelAdd.Font = new Font("Bahnschrift SemiBold", 15F, FontStyle.Regular, GraphicsUnit.Point);
+            labelAdd.ForeColor = SystemColors.ButtonFace;
+            labelAdd.Location = new Point(325, 582);
+            labelAdd.Name = "labelAdd";
+            labelAdd.Size = new Size(224, 24);
+            labelAdd.TabIndex = 8;
+            labelAdd.Text = "Добавить новую доску";
+            // 
             // ChoiceWorkSpace
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(41, 47, 57);
             ClientSize = new Size(1368, 644);
+            Controls.Add(labelAdd);
+            Controls.Add(labelRemove);
             Controls.Add(panel2);
             Controls.Add(panel1);
             MaximumSize = new Size(10000, 800);
@@ -111,6 +140,7 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -120,5 +150,7 @@
         private PictureBox pictureBox2;
         private PictureBox pictureBox3;
         private Label labelMain;
+        private Label labelRemove;
+        private Label labelAdd;
     }
 }
