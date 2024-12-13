@@ -1,0 +1,104 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{72DC121F-0D8D-4484-A3BC-D58242EFA120}|task-trackerVS\\task-trackerVS.csproj|c:\\users\\587-22\\documents\\github\\task-tracker\\task-trackervs\\task-trackervs\\forms\\choiceworkspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{72DC121F-0D8D-4484-A3BC-D58242EFA120}|task-trackerVS\\task-trackerVS.csproj|solutionrelative:task-trackervs\\forms\\choiceworkspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72DC121F-0D8D-4484-A3BC-D58242EFA120}|task-trackerVS\\task-trackerVS.csproj|c:\\users\\587-22\\documents\\github\\task-tracker\\task-trackervs\\task-trackervs\\forms\\choiceworkspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72DC121F-0D8D-4484-A3BC-D58242EFA120}|task-trackerVS\\task-trackerVS.csproj|solutionrelative:task-trackervs\\forms\\choiceworkspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72DC121F-0D8D-4484-A3BC-D58242EFA120}|task-trackerVS\\task-trackerVS.csproj|c:\\users\\587-22\\documents\\github\\task-tracker\\task-trackervs\\task-trackervs\\forms\\choiceworkspace.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{72DC121F-0D8D-4484-A3BC-D58242EFA120}|task-trackerVS\\task-trackerVS.csproj|solutionrelative:task-trackervs\\forms\\choiceworkspace.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{72DC121F-0D8D-4484-A3BC-D58242EFA120}|task-trackerVS\\task-trackerVS.csproj|C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackervs\\forms\\usercontrols\\optionworkspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{72DC121F-0D8D-4484-A3BC-D58242EFA120}|task-trackerVS\\task-trackerVS.csproj|solutionrelative:task-trackervs\\forms\\usercontrols\\optionworkspace.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ChoiceWorkSpace.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\Forms\\ChoiceWorkSpace.Designer.cs",
+              "RelativeDocumentMoniker": "task-trackerVS\\Forms\\ChoiceWorkSpace.Designer.cs",
+              "ToolTip": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\Forms\\ChoiceWorkSpace.Designer.cs",
+              "RelativeToolTip": "task-trackerVS\\Forms\\ChoiceWorkSpace.Designer.cs",
+              "ViewState": "AgIAAFwAAAAAAAAAAIAwwGsAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T08:43:17.066Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChoiceWorkSpace.cs",
+              "DocumentMoniker": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\Forms\\ChoiceWorkSpace.cs",
+              "RelativeDocumentMoniker": "task-trackerVS\\Forms\\ChoiceWorkSpace.cs",
+              "ToolTip": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\Forms\\ChoiceWorkSpace.cs",
+              "RelativeToolTip": "task-trackerVS\\Forms\\ChoiceWorkSpace.cs",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAgwJsAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T08:36:00.018Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ChoiceWorkSpace.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435]",
+              "DocumentMoniker": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\Forms\\ChoiceWorkSpace.cs",
+              "RelativeDocumentMoniker": "task-trackerVS\\Forms\\ChoiceWorkSpace.cs",
+              "ToolTip": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\Forms\\ChoiceWorkSpace.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435]",
+              "RelativeToolTip": "task-trackerVS\\Forms\\ChoiceWorkSpace.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-13T08:35:58.041Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "OptionWorkSpace.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435]",
+              "DocumentMoniker": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\Forms\\UserControls\\OptionWorkSpace.cs",
+              "RelativeDocumentMoniker": "task-trackerVS\\Forms\\UserControls\\OptionWorkSpace.cs",
+              "ToolTip": "C:\\Users\\587-22\\Documents\\GitHub\\task-tracker\\task-trackerVS\\task-trackerVS\\Forms\\UserControls\\OptionWorkSpace.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435]",
+              "RelativeToolTip": "task-trackerVS\\Forms\\UserControls\\OptionWorkSpace.cs [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-10T11:24:23.074Z",
+              "EditorCaption": " [\u041A\u043E\u043D\u0441\u0442\u0440\u0443\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435]"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1301,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

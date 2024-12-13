@@ -1,3 +1,5 @@
+using task_trackerVS.Forms;
+
 namespace task_trackerVS
 {
     internal static class Program
