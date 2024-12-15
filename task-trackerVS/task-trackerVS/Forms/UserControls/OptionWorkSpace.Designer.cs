@@ -42,6 +42,7 @@
             pictureBox1.Location = new Point(3, 72);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(371, 152);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
             // 
@@ -117,12 +118,11 @@
         }
 
         #endregion
-
-        private PictureBox pictureBox1;
         private Label labelCommunity;
         public Button buttonGoTo;
         public Label labelNameWC;
         public Label labelCommunityCount;
         public CheckBox checkBox1;
+        public PictureBox pictureBox1;
     }
 }

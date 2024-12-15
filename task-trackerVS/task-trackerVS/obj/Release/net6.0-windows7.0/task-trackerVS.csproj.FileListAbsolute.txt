@@ -82,3 +82,5 @@ C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Release\ne
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.Forms.ChoiceWorkSpace.resources
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.Forms.UserControls.OptionWorkSpace.resources
 C:\Users\587-22\Documents\GitHub\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.WorkSpaceForm.resources
+C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.Forms.CreateWorkSpaceForm.resources
+C:\Users\ordoo\Desktop\task-tracker\task-trackerVS\task-trackerVS\obj\Release\net6.0-windows7.0\task_trackerVS.Forms.InviteInWorkSpaceForm.resources

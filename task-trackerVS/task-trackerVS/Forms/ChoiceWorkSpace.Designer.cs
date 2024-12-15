@@ -106,6 +106,7 @@
             labelRemove.Size = new Size(260, 24);
             labelRemove.TabIndex = 7;
             labelRemove.Text = "Удалить выбранные доски";
+            labelRemove.Visible = false;
             labelRemove.Click += labelRemove_Click;
             // 
             // labelAdd
@@ -119,6 +120,8 @@
             labelAdd.Size = new Size(224, 24);
             labelAdd.TabIndex = 8;
             labelAdd.Text = "Добавить новую доску";
+            labelAdd.Visible = false;
+            labelAdd.Click += labelAdd_Click;
             // 
             // ChoiceWorkSpace
             // 
@@ -130,9 +133,11 @@
             Controls.Add(labelRemove);
             Controls.Add(panel2);
             Controls.Add(panel1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MaximumSize = new Size(10000, 800);
             MinimumSize = new Size(786, 654);
             Name = "ChoiceWorkSpace";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "ChoiceWorkSpace";
             Resize += ChoiceWorkSpace_Resize;
             panel2.ResumeLayout(false);

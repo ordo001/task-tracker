@@ -12,5 +12,7 @@ namespace task_trackerVS.Models
         public int? IdUser { get; set; }
         public int IdSection { get; set; }
         public int CardLocationY { get; set; }
+
+        public virtual Section IdSectionNavigation { get; set; } = null!;
     }
 }

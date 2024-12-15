@@ -7,6 +7,12 @@
     <Compile Update="Forms\ChoiceWorkSpace.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Forms\CreateWorkSpaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\InviteInWorkSpaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Forms\UserControls\OptionWorkSpace.cs">
       <SubType>UserControl</SubType>
     </Compile>

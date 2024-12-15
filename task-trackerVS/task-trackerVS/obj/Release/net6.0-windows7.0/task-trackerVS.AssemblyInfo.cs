@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("task-trackerVS")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a5624f77d702bb82de69856a68e5dbbdaa95e94")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a22a5ecaaf225be45dff1330b2f305ddb605f512")]
 [assembly: System.Reflection.AssemblyProductAttribute("task-trackerVS")]
 [assembly: System.Reflection.AssemblyTitleAttribute("task-trackerVS")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

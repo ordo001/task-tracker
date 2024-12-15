@@ -16,7 +16,6 @@ namespace task_trackerVS.Models
         public string Role { get; set; } = null!;
         public string Name { get; set; } = null!;
 
-        //public virtual ICollection<WorkSpace> WorkSpaces { get; set; }
-        public virtual List<WorkSpace> WorkSpaces { get; set; }
+        public virtual List<WorkSpace> WorkSpaces { get; set; } = new List<WorkSpace>();
     }
 }

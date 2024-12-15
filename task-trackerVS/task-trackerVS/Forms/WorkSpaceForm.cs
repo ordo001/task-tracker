@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Security.AccessControl;
 using System.Windows.Forms;
+using task_trackerVS.Forms;
 using task_trackerVS.Models;
 using static System.Collections.Specialized.BitVector32;
 
@@ -10,15 +11,33 @@ namespace task_trackerVS
 {
     public partial class WorkSpaceForm : Form
     {
-        public User? EntranceUser { get; }
-        public int IdWorkSpace { get; }
+        private User? _CurrentUser { get; }
+        private WorkSpace _WorkSpace { get; }
 
         //public MainForm(User EntranceUser)
-        public WorkSpaceForm(int idWorkSpace)
+        public WorkSpaceForm(WorkSpace WorkSpace, User _CurrentUser)
         {
+            this._CurrentUser = _CurrentUser;
+            this._WorkSpace = WorkSpace;
             InitializeComponent();
-            this.EntranceUser = EntranceUser;
-            this.IdWorkSpace = idWorkSpace;
+            SetNameWorkSpace();
+            LoadSectionFromDb();
+            EnabletButtonIvite();
+        }
+
+        private void EnabletButtonIvite()
+        {
+            if (_CurrentUser.Role == "Administrator" || _CurrentUser.Role == "Moderator")
+                labelInvite.Visible = true;
+            else
+                labelInvite.Visible = false;
+        }
+
+        private void SetNameWorkSpace()
+        {
+            using TaskTrackerDbContext db = new TaskTrackerDbContext();
+            this.Name = "Доска " + db.WorkSpaces.FirstOrDefault(s => s.IdWorkSpace == _WorkSpace.IdWorkSpace).WorkSpaceName.ToString();
+            this.labelMain.Text = db.WorkSpaces.FirstOrDefault(s => s.IdWorkSpace == _WorkSpace.IdWorkSpace).WorkSpaceName.ToString();
         }
 
         private void RemoveCard(GroupBox sectionCard, UserControlCard cardToRemove)
@@ -68,7 +87,7 @@ namespace task_trackerVS
                 var section = remainingSections[i];
                 section.Location = new Point(10 + (i * 460), section.Location.Y);
 
-                var sectionInDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name && s.IdWorkSpace == IdWorkSpace);
+                var sectionInDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name && s.IdWorkSpace == _WorkSpace.IdWorkSpace);
                 if (sectionInDb != null)
                 {
                     sectionInDb.SectionLocationX = section.Location.X;
@@ -80,7 +99,7 @@ namespace task_trackerVS
         private void RemoveSectionFromDb(GroupBox sectionToRemove, TaskTrackerDbContext db)
         {
             var cardsList = db.Cards.ToList();
-            var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == sectionToRemove.Name && s.IdWorkSpace == IdWorkSpace);
+            var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == sectionToRemove.Name && s.IdWorkSpace == _WorkSpace.IdWorkSpace);
             if (sectionData != null)
             {
                 var cardsForSection = cardsList.Where(c => c.IdSection == sectionData.IdSection).ToList();
@@ -148,7 +167,7 @@ namespace task_trackerVS
 
                 foreach (GroupBox section in Controls.OfType<GroupBox>())
                 {
-                    var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                    var sectionData = db.Sections.FirstOrDefault(s => s.NameSection == section.Name && s.IdWorkSpace == _WorkSpace.IdWorkSpace);
                     if (sectionData != null)
                     {
                         var cardsForSection = cardsList.Where(c => c.IdSection == sectionData.IdSection).ToList();
@@ -216,7 +235,7 @@ namespace task_trackerVS
                             {
                                 using (TaskTrackerDbContext dbContext = new TaskTrackerDbContext())
                                 {
-                                    var aboba = dbContext.Cards.FirstOrDefault(c => c.NameCard == card.Name);
+                                    var aboba = dbContext.Cards.FirstOrDefault(c => c.NameCard == card.Name && c.IdSection == sectionData.IdSection);
                                     if (aboba != null)
                                     {
                                         aboba.Content = card.textBox1.Text;
@@ -236,7 +255,7 @@ namespace task_trackerVS
         {
             using (TaskTrackerDbContext db = new TaskTrackerDbContext())
             {
-                var sectionCard = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
+                var sectionCard = db.Sections.FirstOrDefault(s => s.NameSection == section.Name && s.IdWorkSpace == _WorkSpace.IdWorkSpace);
                 var cardCountForSection = db.Cards.Where(p => p.IdSection == sectionCard.IdSection).ToList();
 
                 UserControlCard card = new UserControlCard();
@@ -248,14 +267,15 @@ namespace task_trackerVS
 
                 using (TaskTrackerDbContext db1 = new TaskTrackerDbContext())
                 {
-                    var sectionDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name);
-                    Models.Card newCard = new Models.Card
+                    var sectionDb = db.Sections.FirstOrDefault(s => s.NameSection == section.Name && s.IdWorkSpace == _WorkSpace.IdWorkSpace);
+                    Card newCard = new Card
                     {
                         NameCard = card.Name,
                         Heading = card.labelHeading.Text,
                         Content = card.textBox1.Text,
                         CardLocationY = card.Location.Y,
-                        IdUser = EntranceUser.IdUser,
+                        //IdUser = _CurrentUser.IdUser,
+                        IdUser = 5,
                         IdSection = sectionDb.IdSection
                     };
                     db1.Add(newCard);
@@ -309,7 +329,7 @@ namespace task_trackerVS
                 card.Controls.Add(treeViewCard);
                 card.textBox1.LostFocus += (s, e) =>
                 {
-                    var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name);
+                    var aboba = db.Cards.FirstOrDefault(c => c.NameCard == card.Name && c.IdSection == sectionCard.IdSection);
                     if (aboba != null)
                     {
                         aboba.Content = card.textBox1.Text;
@@ -367,12 +387,13 @@ namespace task_trackerVS
         private void LoadSectionFromDb()
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
-            var sectionsInWorkSpaceList = db.Sections.Where(x => x.IdWorkSpace == IdWorkSpace).AsNoTracking().ToList();
+            var sectionsInWorkSpaceList = db.Sections.Where(x => x.IdWorkSpace == _WorkSpace.IdWorkSpace).AsNoTracking().ToList();
 
             foreach (var item in sectionsInWorkSpaceList)
             {
                 GroupBox section = new GroupBox()
                 {
+                    //TabIndex = ite
                     Location = new Point(item.SectionLocationX, item.SectionLocationY),
                     Name = item.NameSection,
                     Size = new Size(420, 100),
@@ -390,14 +411,14 @@ namespace task_trackerVS
 
         private void Main_Load(object sender, EventArgs e)
         {
-            LoadSectionFromDb();
+            //LoadSectionFromDb();
         }
 
         private void AddNewSectionInForm()
         {
             using (var db = new TaskTrackerDbContext())
             {
-                var sectionsInWorkSpaceList = db.Sections.Where(x => x.IdWorkSpace == IdWorkSpace).AsNoTracking().ToList();
+                var sectionsInWorkSpaceList = db.Sections.Where(x => x.IdWorkSpace == _WorkSpace.IdWorkSpace).AsNoTracking().ToList();
                 List<task_trackerVS.Models.Section> sections = new List<task_trackerVS.Models.Section>();
                 GroupBox section = new GroupBox()
                 {
@@ -447,7 +468,7 @@ namespace task_trackerVS
                 Models.Section newSection = new Models.Section
                 {
                     NameSection = section.Name,
-                    IdWorkSpace = IdWorkSpace,
+                    IdWorkSpace = _WorkSpace.IdWorkSpace,
                     HeadingSection = head.Text,
                     SectionLocationX = section.Location.X,
                     SectionLocationY = section.Location.Y,
@@ -522,15 +543,18 @@ namespace task_trackerVS
         {
             Controls.Clear();
             InitializeComponent();
-            Main_Load(sender, e);
+            SetNameWorkSpace();
+            LoadSectionFromDb();
 
 
         }
 
+
+
         private void label1_Click(object sender, EventArgs e)
         {
             TaskTrackerDbContext db = new TaskTrackerDbContext();
-            var workSpace = db.WorkSpaces.Include(u => u.Users).FirstOrDefault(u => u.IdWorkSpace == IdWorkSpace);
+            var workSpace = db.WorkSpaces.Include(u => u.Users).FirstOrDefault(u => u.IdWorkSpace == _WorkSpace.IdWorkSpace);
             var CommunityWorkSpace = workSpace.Users.ToList();
             OpenFormListCommunity(CommunityWorkSpace);
         }
@@ -542,8 +566,10 @@ namespace task_trackerVS
                 Text = "Список участников доски",
             };
 
-            ListBox listBoxCommunity = new ListBox() { 
-                Dock = DockStyle.Fill, Size = new Size(400,100),
+            ListBox listBoxCommunity = new ListBox()
+            {
+                Dock = DockStyle.Fill,
+                Size = new Size(400, 100),
                 Font = new Font(label1.Font.FontFamily, 13)
             };
 
@@ -556,10 +582,28 @@ namespace task_trackerVS
         {
             listBox.Items.Add($"Всего участников: {CommunityWorkSpace.Count}");
             listBox.Items.Add($"Список участников:");
-            foreach(var user in CommunityWorkSpace)
+            foreach (var user in CommunityWorkSpace)
             {
                 listBox.Items.Add(user.Name);
             }
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            InviteInWorkSpaceForm inviteInWorkSpaceForm = new InviteInWorkSpaceForm(_WorkSpace.IdWorkSpace);
+            inviteInWorkSpaceForm.ShowDialog();
+        }
+
+        private void OpenFormListInvite()
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ChoiceWorkSpace choiceWorkSpace = new ChoiceWorkSpace(_CurrentUser);
+            choiceWorkSpace.Show();
         }
     }
 }

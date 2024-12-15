@@ -1,6 +1,8 @@
 ﻿namespace task_trackerVS
 {
     using System.ComponentModel.Design;
+    using task_trackerVS.Models;
+
     partial class WorkSpaceForm
     {
         /// <summary>
@@ -29,8 +31,6 @@
         /// </summary>
         /// 
 
-
-
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
@@ -39,7 +39,7 @@
             cardsToolStripMenuItem = new ToolStripMenuItem();
             labelMain = new Label();
             label1 = new Label();
-            label2 = new Label();
+            labelInvite = new Label();
             pictureBox1 = new PictureBox();
             panel1 = new Panel();
             pictureBox2 = new PictureBox();
@@ -69,9 +69,9 @@
             labelMain.ForeColor = SystemColors.ButtonFace;
             labelMain.Location = new Point(145, 42);
             labelMain.Name = "labelMain";
-            labelMain.Size = new Size(366, 34);
+            labelMain.Size = new Size(139, 34);
             labelMain.TabIndex = 1;
-            labelMain.Text = "Информационные системы";
+            labelMain.Text = "Название";
             // 
             // label1
             // 
@@ -86,19 +86,23 @@
             label1.Text = "Участники";
             label1.Click += label1_Click;
             // 
-            // label2
+            // labelInvite
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline, GraphicsUnit.Point);
-            label2.ForeColor = SystemColors.ScrollBar;
-            label2.Location = new Point(818, 47);
-            label2.Name = "label2";
-            label2.Size = new Size(141, 29);
-            label2.TabIndex = 3;
-            label2.Text = "Пригласить";
+            labelInvite.AutoSize = true;
+            labelInvite.Cursor = Cursors.Hand;
+            labelInvite.Font = new Font("Bahnschrift SemiBold", 18F, FontStyle.Underline, GraphicsUnit.Point);
+            labelInvite.ForeColor = SystemColors.ScrollBar;
+            labelInvite.Location = new Point(824, 47);
+            labelInvite.Name = "labelInvite";
+            labelInvite.Size = new Size(120, 29);
+            labelInvite.TabIndex = 3;
+            labelInvite.Text = "Добавить";
+            labelInvite.Visible = false;
+            labelInvite.Click += label2_Click;
             // 
             // pictureBox1
             // 
+            pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Image = Properties.Resources.icon;
             pictureBox1.Location = new Point(14, 3);
             pictureBox1.Name = "pictureBox1";
@@ -106,6 +110,7 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 5;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click;
             // 
             // panel1
             // 
@@ -113,7 +118,7 @@
             panel1.Controls.Add(pictureBox2);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(labelMain);
-            panel1.Controls.Add(label2);
+            panel1.Controls.Add(labelInvite);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
@@ -162,7 +167,7 @@
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem cardsToolStripMenuItem;
         private Label label1;
-        private Label label2;
+        private Label labelInvite;
         private PictureBox pictureBox1;
         private Panel panel1;
         private PictureBox pictureBox2;

@@ -65,6 +65,12 @@ namespace task_trackerVS.Models
                 entity.Property(e => e.NameCard)
                     .HasMaxLength(30)
                     .HasColumnName("name_card");
+
+                entity.HasOne(d => d.IdSectionNavigation)
+                    .WithMany(p => p.Cards)
+                    .HasForeignKey(d => d.IdSection)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("cards_ibfk_1");
             });
 
             modelBuilder.Entity<Section>(entity =>
@@ -153,6 +159,10 @@ namespace task_trackerVS.Models
                 entity.ToTable("work_spaces");
 
                 entity.Property(e => e.IdWorkSpace).HasColumnName("id_work_space");
+
+                entity.Property(e => e.Image)
+                    .HasColumnType("varbinary(65000)")
+                    .HasColumnName("image");
 
                 entity.Property(e => e.WorkSpaceName)
                     .HasMaxLength(100)

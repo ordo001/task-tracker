@@ -31,6 +31,8 @@ namespace task_trackerVS.Forms
 
         private void AddWorkSpacesInForm()
         {
+            panel1.Controls.Clear();
+
             using TaskTrackerDbContext db = new TaskTrackerDbContext();
             var user = db.Users.Include(u => u.WorkSpaces).FirstOrDefault(u => u.IdUser == _CurrentUser.IdUser);
 
@@ -43,6 +45,11 @@ namespace task_trackerVS.Forms
                 if (user.Role == "Administrator")
                 {
                     var workSpaces = db.WorkSpaces.ToList();
+                    if (this._CurrentUser.Role == "Administrator")
+                    {
+                        labelAdd.Visible = true;
+                        labelRemove.Visible = true;
+                    }
                     LoadWorkSpaceFormDb(workSpaces, db);
 
                 }
@@ -63,9 +70,30 @@ namespace task_trackerVS.Forms
                 int? countCommunityWorkSpace = WC.Users.Count;
                 // Создание экземляров выбора досок
                 var workSpace = CreateOptionWorkSpace(i, workSpaces[i], countCommunityWorkSpace);
-                EnabledDeleteButton(workSpace);
+                EnabledAdminControls(workSpace);
+                workSpace.pictureBox1.Image = ConvertByteArrayToImage(WC.Image);
                 this.panel1.Controls.Add(workSpace);
 
+            }
+        }
+
+        private Image? ConvertByteArrayToImage(byte[]? byteArray)
+        {
+            if (byteArray == null || byteArray.Length == 0)
+            {
+                //throw new ArgumentException("Массив байтов пуст или null.");
+                return null;
+            }
+
+            try
+            {
+                using var ms = new MemoryStream(byteArray);
+                return System.Drawing.Image.FromStream(ms);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show("Ошибка: массив байтов не содержит корректное изображение." + ex.ToString());
+                return null;
             }
         }
 
@@ -90,11 +118,12 @@ namespace task_trackerVS.Forms
 
         }
 
-        private void EnabledDeleteButton(OptionWorkSpace workSpace)
+        private void EnabledAdminControls(OptionWorkSpace workSpace)
         {
             if (this._CurrentUser.Role == "Administrator")
-            //workSpace.pictureBox2.Visible = true;
             {
+                labelAdd.Visible = true;
+                labelRemove.Visible = true;
                 workSpace.checkBox1.Visible = true;
             }
 
@@ -104,7 +133,7 @@ namespace task_trackerVS.Forms
         private void OpenWorkSpace(WorkSpace workSpaces)
         {
             using TaskTrackerDbContext db = new TaskTrackerDbContext();
-            WorkSpaceForm workSpaceForm = new WorkSpaceForm(workSpaces.IdWorkSpace)
+            WorkSpaceForm workSpaceForm = new WorkSpaceForm(workSpaces, _CurrentUser)
             {
                 Text = workSpaces.WorkSpaceName,
             };
@@ -129,32 +158,52 @@ namespace task_trackerVS.Forms
         private void labelRemove_Click(object sender, EventArgs e)
         {
             using TaskTrackerDbContext db = new TaskTrackerDbContext();
-            
-            foreach(var item in this.panel1.Controls)
+
+            foreach (var item in this.panel1.Controls)
             {
-                if(item is OptionWorkSpace)
+                if (item is OptionWorkSpace)
                 {
                     var workSpace = item as OptionWorkSpace;
-                    var WC = db.WorkSpaces.FirstOrDefault(s => s.IdWorkSpace == workSpace.TabIndex);
+                    //var WC = db.WorkSpaces.FirstOrDefault(s => s.IdWorkSpace == workSpace.TabIndex);
+                    var aboba = db.WorkSpaces.FirstOrDefault(s => s.IdWorkSpace == workSpace.TabIndex);
                     if (workSpace.checkBox1.Checked)
                     {
-                        RemoveWorkSpace(WC, workSpace);
+                        RemoveWorkSpace(aboba, workSpace);
                     }
                 }
             }
         }
 
-        private void RemoveWorkSpace(WorkSpace workSpace,OptionWorkSpace optionWorkSpace)
+        private void RemoveWorkSpace(WorkSpace workSpace, OptionWorkSpace optionWorkSpace)
         {
             using TaskTrackerDbContext db = new TaskTrackerDbContext();
-            var WC = db.WorkSpaces.FirstOrDefault(u => u.IdWorkSpace == workSpace.IdWorkSpace);
-            if (WC != null)
+            //var WC = db.WorkSpaces.FirstOrDefault(u => u.IdWorkSpace == workSpace.IdWorkSpace);
+            if (workSpace != null)
             {
-                db.Remove(WC);
+                DeleteSectionDb(workSpace);
+                db.Remove(workSpace);
                 db.SaveChanges();
                 AddWorkSpacesInForm();
             }
-            
+
+        }
+
+        private void DeleteSectionDb(WorkSpace workSpace)
+        {
+            using TaskTrackerDbContext db = new TaskTrackerDbContext();
+            var aboba = db.Sections.Where(s => s.IdWorkSpace == workSpace.IdWorkSpace).ToList();
+            foreach (var section in aboba)
+            {
+                db.Remove(section);
+            }
+            db.SaveChanges();
+        }
+
+        private void labelAdd_Click(object sender, EventArgs e)
+        {
+            CreateWorkSpaceForm createWorkSpaceForm = new CreateWorkSpaceForm(_CurrentUser);
+            createWorkSpaceForm.Show();
+            this.Hide();
         }
     }
 }
